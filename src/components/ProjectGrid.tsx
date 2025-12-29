@@ -7,13 +7,13 @@ import ProjectCard, { ProjectData } from './ProjectCard';
 
 interface Props {
     projects: ProjectData[];
-    // activeSlug?: string; // We use search params now
+    activeSlug?: string;
 }
 
-function GridContent({ projects }: Props) {
+function GridContent({ projects, activeSlug: propSlug }: Props) {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const activeSlug = searchParams.get('project');
+    const activeSlug = propSlug || searchParams.get('project');
 
     const handleClose = () => {
         router.push('/', { scroll: false });
