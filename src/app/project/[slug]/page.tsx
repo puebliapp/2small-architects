@@ -1,14 +1,11 @@
 import ProjectGrid from '@/components/ProjectGrid';
-import { PROJECTS, getProjectBySlug } from '@/lib/data';
+import { getProjects } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import styles from '../../page.module.css'; // Re-use home styles
 
-// Needed for static generation
-export async function generateStaticParams() {
-    return PROJECTS.map((project) => ({
-        slug: project.slug,
-    }));
-}
+// Ensure this page is treated as dynamic so it fetches fresh data from DB on load
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function ProjectPage({
     params,
@@ -16,7 +13,8 @@ export default async function ProjectPage({
     params: Promise<{ slug: string }>;
 }) {
     const slug = (await params).slug
-    const project = getProjectBySlug(slug);
+    const allProjects = await getProjects();
+    const project = allProjects.find((p: any) => p.slug === slug);
 
     if (!project) {
         notFound();
@@ -25,7 +23,7 @@ export default async function ProjectPage({
     // We render the SAME grid as home, but tell it which one is active
     return (
         <div className={styles.main}>
-            <ProjectGrid projects={PROJECTS} activeSlug={slug} />
+            <ProjectGrid projects={allProjects} activeSlug={slug} />
         </div>
     );
 }
