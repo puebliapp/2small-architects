@@ -2,6 +2,9 @@ import { sql } from '@vercel/postgres';
 
 export async function createTable() {
     try {
+        // Ensure UUID extension exists FIRST
+        await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`;
+
         await sql`
       CREATE TABLE IF NOT EXISTS projects (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -15,8 +18,6 @@ export async function createTable() {
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
     `;
-        // Ensure UUID extension
-        await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`;
     } catch (error) {
         console.error('Failed to create table:', error);
         throw error;
