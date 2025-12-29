@@ -1,0 +1,122 @@
+.footer {
+    padding: 4rem 2rem 2rem;
+    width: 100%;
+    background: white;
+    color: var(--primary);
+    /* Set text color to BLUE globally for footer */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* Mobile defaults above, Desktop Grid below */
+@media (min-width: 1024px) {
+    .container {
+        display: grid;
+        /* 4 columns: Logo | Inquiry | Email | Contact */
+        /* Adjust ratios to verify visual weight in screenshot */
+        grid-template-columns: 1fr 1.5fr 1fr 0.5fr;
+        align-items: flex-end;
+        /* Align bottom as per screenshot mostly */
+        gap: 2rem;
+    }
+}
+
+/* 1. Logo Stack */
+.logoStack {
+    display: flex;
+    flex-direction: column;
+    line-height: 0.9;
+    font-family: inherit;
+    color: var(--primary);
+    /* Ensure Blue */
+}
+
+.number {
+    font-size: 3rem;
+    font-weight: 400;
+    margin-bottom: -0.2rem;
+}
+
+.small {
+    font-size: 3rem;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.architects {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+/* 2. Inquiry Block */
+.inquiryBlock {
+    padding-bottom: 0.2rem;
+    color: var(--primary);
+    /* Ensure Blue */
+}
+
+.primaryLang {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.1rem;
+    color: var(--primary);
+    /* Main lang blue */
+}
+
+.secondaryLang {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #999;
+    /* Keep secondary langs grey? Screenshot shows them grey.  */
+    /* Wait, screenshot shows: "Para consultas..." BLUE. 
+       "Pour les..." GREY
+       "For new..." GREY
+       Let's stick to that. Primary Blue, Secondary Grey.
+       Wait user said "Ojo con los colores de estos elementos". 
+       The screenshot `uploaded_image_1...` shows "Para consultas..." as blue-ish, but looking closely at cropped screenshot provided in request text:
+       "Para consultas..." is BLUE.
+       "santosdiez@gmail.com" is BLUE + underline.
+       "Contact" is BLUE.
+       "2 SM ALL ARCHITECTS" is BLUE.
+       So only secondary languages stay grey.
+    */
+    margin-bottom: 0.1rem;
+}
+
+/* 3. Email Block */
+.emailBlock {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 0.2rem;
+}
+
+@media (min-width: 1024px) {
+    .emailBlock {
+        justify-content: center;
+    }
+}
+
+.email {
+    font-size: 1rem;
+    text-decoration: underline;
+    color: var(--primary);
+    /* Ensure Blue */
+    font-weight: 500;
+}
+
+/* 4. Contact Block */
+.contactBlock {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 0.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary);
+    /* Ensure Blue */
+}

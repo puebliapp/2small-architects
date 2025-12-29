@@ -1,0 +1,48 @@
+.container {
+    min-height: 100vh;
+    background-color: var(--primary);
+    color: white;
+    padding: 8rem 2rem 4rem;
+    /* Top padding for header */
+}
+
+.intro {
+    margin-bottom: 4rem;
+}
+
+.intro h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.intro h2 span {
+    font-weight: 300;
+    opacity: 0.7;
+}
+
+.team {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+}
+
+@media (min-width: 768px) {
+    .team {
+        grid-template-columns: 1fr 1fr;
+        column-gap: 6rem;
+        row-gap: 4rem;
+    }
+}
+
+.member h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.member p {
+    font-size: 1rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}

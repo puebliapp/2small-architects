@@ -1,0 +1,52 @@
+.container {
+    padding: 4rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+}
+
+.addButton {
+    background: black;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 6px;
+}
+
+.info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.info p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.editBtn {
+    margin-right: 1rem;
+    text-decoration: underline;
+}

@@ -1,0 +1,137 @@
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 150;
+    background: transparent;
+    pointer-events: none;
+    transition: backdrop-filter 0.5s ease;
+}
+
+.backdrop.active {
+    pointer-events: auto;
+    backdrop-filter: blur(8px);
+}
+
+.drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--primary);
+    color: white;
+    z-index: 200;
+    transform: translateX(100%);
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow-y: auto;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+    /* Ensure footer contact stays at bottom if content is short, 
+     but if content is long it scrolls. 
+     To keep Contact Fixed at bottom right visible ALWAYS: position fixed relative to drawer? 
+     Or sticky? The screenshot puts it at bottom right. */
+}
+
+.drawer.open {
+    transform: translateX(0);
+}
+
+@media (min-width: 768px) {
+    .drawer {
+        width: 66vw;
+    }
+}
+
+/* Header Decor inside Drawer */
+.drawerHeaderDecor {
+    position: absolute;
+    top: 1.5rem;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    padding: 0 4rem;
+    /* Match content padding? */
+    display: flex;
+    justify-content: center;
+}
+
+/* Positioning based on "white dots in top header" */
+/* The screenshot shows two dots roughly center of the BLUE panel? Or center of screen? 
+   Let's assume center of the panel for now or center of screen. 
+   Actually, looking at screenshot, they are aligned with the normal header dots but white.
+*/
+.centerDots {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    letter-spacing: 2px;
+}
+
+.rightDot {
+    position: absolute;
+    right: 6rem;
+    /* Left of SM all */
+    top: 0;
+}
+
+.content {
+    padding: 8rem 4rem 4rem;
+    /* Top padding clears the header area */
+    min-height: 100%;
+    position: relative;
+    padding-bottom: 6rem;
+    /* Space for fixed contact */
+}
+
+.intro {
+    margin-bottom: 4rem;
+}
+
+.intro h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.intro h2 span {
+    opacity: 0.6;
+}
+
+.teamGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+}
+
+@media (min-width: 768px) {
+    .teamGrid {
+        grid-template-columns: 1fr 1fr;
+        column-gap: 6rem;
+        row-gap: 3rem;
+    }
+}
+
+.member h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.member p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+.footerContact {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    /* Ensure it sits on top if content scrolls behind? Use background? 
+     Or usually just sits there. */
+}

@@ -1,0 +1,34 @@
+.cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    background-color: var(--primary);
+    /* Blue */
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.3s;
+    mix-blend-mode: difference;
+    /* Optional: makes it visible on blue backgrounds too? Or just keep it blue on white/black */
+    /* If background is blue, blue dot is invisible. 
+     Maybe mix-blend-mode: exclusion or just make it white when over blue via context? 
+     For now single color blue as requested "bolita azul" */
+    mix-blend-mode: normal;
+}
+
+.clicked {
+    transform: translate(-50%, -50%) scale(0.9);
+}
+
+.hovered {
+    /* grow slightly on links? */
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.8;
+}
+
+.hidden {
+    opacity: 0;
+}

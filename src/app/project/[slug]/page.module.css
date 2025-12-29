@@ -1,0 +1,111 @@
+.container {
+    min-height: 100vh;
+    padding-top: 6rem;
+    /* Space for header */
+}
+
+/* Mobile first: Stacked */
+.mainLayout {
+    display: flex;
+    flex-direction: column;
+}
+
+.imageSection {
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.imageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9/14;
+    /* Match grid ratio for continuity */
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.img {
+    object-fit: cover;
+}
+
+.infoSection {
+    padding: 0 2rem 4rem;
+}
+
+.header {
+    margin-bottom: 3rem;
+}
+
+.icon {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    display: block;
+}
+
+.titleBlock h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.meta {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.description {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 600px;
+}
+
+.description p {
+    margin-bottom: 1.5rem;
+}
+
+/* Desktop Split Layout */
+@media (min-width: 1024px) {
+    .container {
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+        /* Main container hidden overflow, children scroll if needed */
+    }
+
+    .mainLayout {
+        flex-direction: row;
+        height: 100%;
+    }
+
+    .imageSection {
+        flex: 1;
+        height: 100%;
+        padding: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+    }
+
+    .imageWrapper {
+        height: 90%;
+        width: auto;
+        aspect-ratio: 9/14;
+        margin: 0;
+        /* On desktop, maybe we want it to feel like the grid item expanded. 
+       For now, centered in its half. */
+    }
+
+    .infoSection {
+        flex: 1;
+        height: 100%;
+        overflow-y: auto;
+        /* Scrollable text panel */
+        padding: 8rem 4rem 4rem;
+        /* Top padding for header */
+        background: #f8f8f8;
+        /* Slight contrast or white */
+    }
+}

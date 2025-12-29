@@ -1,0 +1,35 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 600px;
+}
+
+.group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.group label {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.group input,
+.group textarea {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.submit {
+    background: black;
+    color: white;
+    padding: 1rem;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+}

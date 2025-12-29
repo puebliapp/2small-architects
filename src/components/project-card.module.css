@@ -1,0 +1,244 @@
+.card {
+    display: block;
+    width: 100%;
+    /* text-decoration: none; */
+    /* color: inherit; */
+    position: relative;
+    /* Ensure z-index handling if overlapping */
+}
+
+.linkWrapper {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.expanded {
+    grid-column: span 2;
+}
+
+.innerWrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+.expanded .innerWrapper {
+    flex-direction: row;
+    gap: 2rem;
+}
+
+/* LEFT COLUMN (Image) */
+.leftColumn {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    transition: width 0.5s ease;
+    background: white;
+    /* Important to cover the text sliding from behind */
+    z-index: 10;
+    position: relative;
+}
+
+.expanded .leftColumn {
+    width: 50%;
+}
+
+.imageContainer {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 13;
+    /* Adjusted slightly taller? Or keep 9/14 */
+    background: #f0f0f0;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.image {
+    object-fit: cover;
+    /* No scale transition on hover requested */
+    /* transition: opacity 0.5s ease; // for carousel crossfade if implemented */
+}
+
+/* INFO / TITLE */
+.info {
+    margin-top: 0.5rem;
+    position: relative;
+    z-index: 10;
+    background: white;
+    /* Ensure title also covers sliding text if overlap occurs */
+}
+
+.title {
+    font-size: 1rem;
+    /* 16px approx */
+    font-weight: 500;
+    color: #2b5bf5;
+    /* Blue title as per Screenshot (Vivienda familiar) */
+    margin-bottom: 0.2rem;
+    letter-spacing: -0.01em;
+}
+
+.meta {
+    font-size: 0.95rem;
+    color: #999;
+    /* Grey */
+    font-weight: 400;
+}
+
+/* RIGHT COLUMN (Content) */
+.expandedContent {
+    width: 50%;
+    padding-top: 0;
+    /* Aligned with top of image? */
+    position: relative;
+    /* No overflow hidden here if we want to debug, but hidden is safer for masking */
+    overflow: hidden;
+    z-index: 0;
+    /* Behind the image */
+
+    /* Animation: Pure Translate X. No opacity fade. */
+    animation: panelReveal 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    transform: translateX(-100%);
+    /* Start hidden behind left column */
+    opacity: 1;
+}
+
+.closing .expandedContent {
+    animation: panelHide 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes panelReveal {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes panelHide {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.dotsIcon {
+    margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 6px);
+    gap: 4px;
+    justify-content: flex-start;
+    width: fit-content;
+}
+
+/* 5 dots shape: 
+   . . . 
+    . .  (example) or cross. 
+   Screenshot shows:
+      o
+    o o o
+      o
+   Like a cross.
+*/
+.dotsIcon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    width: 24px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: black;
+    border-radius: 50%;
+}
+
+/* This CSS for dots is placeholder, can use SVG for precision if needed. 
+   Let's replace with SVG in the component for better control of the "Cross" shape.
+   Actually in the component code I just put spans. Let's start simple. */
+
+.textContent {
+    /* text styles */
+}
+
+.description {
+    font-size: 0.95rem;
+    /* ~15px */
+    line-height: 1.5;
+    color: #000;
+    font-weight: 500;
+}
+
+.description p {
+    margin-bottom: 1.5rem;
+}
+
+.press {
+    margin-top: 3rem;
+    border-top: 1px solid transparent;
+}
+
+.pressLabel {
+    font-size: 0.9rem;
+    color: #999;
+    margin-bottom: 0.2rem;
+}
+
+.pressLink {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: black;
+    text-decoration: none;
+    /* or underline? Screenshot shows clean text */
+    border-bottom: 1px solid black;
+}
+
+/* Close Area - Invisible link covering empty space? or explicit? 
+   User didn't specify close button for grid card. Usually clicking the image again or another project closes it. 
+   Or clicking "All Projects" link. 
+   For now, we leave it without explicit close X as per "No Close Up view".
+*/
+
+@media (max-width: 768px) {
+    .expanded {
+        grid-column: 1 / -1;
+    }
+
+    .expanded .innerWrapper {
+        flex-direction: column;
+    }
+
+    .expanded .leftColumn,
+    .expandedContent {
+        width: 100%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .desktopHidden {
+        display: none !important;
+        /* Important to override motion style if necessary, 
+           though layout prop usually handles removal nicely if component unmounts. 
+           But purely CSS hiding is safer for stable DOM keys in list. 
+           Wait, if I use display:none, Framer might not animate the hole closing?
+           Actually, layout prop handles changes in layout trigger by Display: none too in some versions,
+           but ideally we filter the list in React.
+           HOWEVER, filtering in React changes the array referencing.
+           Let's try CSS class first, if animation is jerky, we move to conditional rendering. 
+           But user wants smooth "disappear".
+        */
+        display: none !important;
+    }
+}

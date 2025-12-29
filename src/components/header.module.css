@@ -1,0 +1,92 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.25rem 2rem;
+    z-index: 300;
+    /* Higher than drawer (200) so SM all is clickable */
+    color: var(--primary);
+    /* Blue for SM all and dots as per screenshot */
+    transition: color 0.3s ease;
+}
+
+.inverted {
+    color: white;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dotsLink {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 2rem;
+    /* Larger dots */
+    line-height: 0;
+    display: flex;
+    gap: 4px;
+}
+
+.dots {
+    letter-spacing: -2px;
+    /* Pull them tighter if font default tracking is too wide. Or use svg circles. */
+    /* Screenshot shows two solid blue circles.
+       Text "••" might look different depending on font.
+       Let's stick to text for now but make it bigger. 
+       Or better: replace with SVG circles for perfect "bolas". 
+       The user said "los dos puntos de arriba centrados deben de ser mas grandes"
+       and "Ojo con los colores".
+       I will keep text but ensure it's primary color.
+    */
+    color: var(--primary);
+    /* Explicitly set blue just in case inherit fails */
+}
+
+/* Override when inverted for white dots */
+.inverted .header {
+    color: white;
+}
+
+.inverted .dots {
+    color: white;
+}
+
+.link:hover,
+.logoBtn:hover {
+    opacity: 0.6;
+}
+
+.logoBtn {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    /* Inherits blue via .header color */
+    cursor: pointer;
+    padding: 0;
+}
