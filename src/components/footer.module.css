@@ -16,11 +16,9 @@
 @media (min-width: 1024px) {
     .container {
         display: grid;
-        /* 4 columns: Logo | Inquiry | Email | Contact */
-        /* Adjust ratios to verify visual weight in screenshot */
-        grid-template-columns: 1fr 1.5fr 1fr 0.5fr;
+        /* 3 columns: Logo | Inquiry | Email */
+        grid-template-columns: 1fr 1.5fr 1fr;
         align-items: flex-end;
-        /* Align bottom as per screenshot mostly */
         gap: 2rem;
     }
 }
@@ -116,10 +114,4 @@
     font-size: 1rem;
     font-weight: 500;
     color: var(--primary);
-    /* Sticky positioning: stays in viewport while scrolling, stops at natural position */
-    position: sticky;
-    top: calc(100vh - 4rem);
-    /* Stick near bottom of viewport */
-    align-self: flex-start;
-    /* Allows sticky to work properly */
 }

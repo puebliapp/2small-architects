@@ -39,11 +39,6 @@ export default async function Footer() {
                         santosdiez@gmail.com
                     </a>
                 </div>
-
-                {/* 4. Contact Label */}
-                <div className={styles.contactBlock}>
-                    <span>Contact</span>
-                </div>
             </div>
         </footer>
     );

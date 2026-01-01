@@ -10,15 +10,10 @@
     font-family: inherit;
     padding: 0.5rem 0;
     z-index: 100;
-    transition: opacity 0.3s ease;
     cursor: pointer;
+    transition: opacity 0.3s ease;
 }
 
 .contactButton:hover {
     opacity: 0.6;
-}
-
-.contactButton.hidden {
-    opacity: 0;
-    pointer-events: none;
 }
