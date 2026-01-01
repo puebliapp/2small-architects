@@ -1,5 +1,5 @@
 'use client';
-import { createProject, updateProject } from '@/app/actions';
+import { createProject, updateProject, removeImageFromProject } from '@/app/actions';
 import styles from './form.module.css';
 import { ProjectData } from './ProjectCard';
 import { useState } from 'react';
@@ -13,6 +13,20 @@ export default function ProjectForm({ initialData }: Props) {
     const serverAction = initialData ? updateProject.bind(null, initialData.id) : createProject;
     const [pending, setPending] = useState(false);
     const router = useRouter();
+
+    async function handleRemoveImage(imageUrl: string) {
+        if (!initialData?.id || !confirm('¿Seguro que quieres eliminar esta imagen de la galería?')) return;
+
+        setPending(true);
+        const res = await removeImageFromProject(initialData.id, imageUrl);
+        if (res.success) {
+            router.refresh();
+            setPending(false);
+        } else {
+            setPending(false);
+            alert('Error al borrar imagen: ' + res.error);
+        }
+    }
 
     async function handleSubmit(formData: FormData) {
         setPending(true);
@@ -72,9 +86,21 @@ export default function ProjectForm({ initialData }: Props) {
             <div className={styles.group}>
                 <label>Gallery Images (Select Multiple)</label>
                 {initialData?.images && initialData.images.length > 0 && (
-                    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
                         {initialData.images.map((img, i) => (
-                            <img key={i} src={img} height={40} />
+                            <div key={i} style={{ position: 'relative' }}>
+                                <img src={img} height={80} style={{ borderRadius: '8px', border: '1px solid #ddd' }} alt="" />
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemoveImage(img)}
+                                    style={{
+                                        position: 'absolute', top: -5, right: -5,
+                                        background: '#ef4444', color: 'white', border: '2px solid white',
+                                        borderRadius: '50%', width: 22, height: 22, cursor: 'pointer',
+                                        fontSize: 14, fontWeight: 'bold'
+                                    }}
+                                >×</button>
+                            </div>
                         ))}
                     </div>
                 )}

@@ -152,3 +152,28 @@ export async function updateProject(id: string, formData: FormData) {
         return { success: false, error: String(e) };
     }
 }
+
+export async function deleteProject(id: string) {
+    try {
+        await sql`DELETE FROM projects WHERE id = ${id}`;
+        revalidatePath('/admin/dashboard');
+        revalidatePath('/');
+        return { success: true };
+    } catch (e) {
+        console.error('Delete failed', e);
+        return { success: false, error: String(e) };
+    }
+}
+
+export async function removeImageFromProject(id: string, imageUrl: string) {
+    try {
+        await sql`UPDATE projects SET images = array_remove(images, ${imageUrl}) WHERE id = ${id}`;
+        // Revalidate project edit page to see reflected change
+        revalidatePath(`/admin/project/${id}`);
+        revalidatePath('/');
+        return { success: true };
+    } catch (e) {
+        console.error('Image removal failed', e);
+        return { success: false, error: String(e) };
+    }
+}

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import DeleteProjectButton from '@/components/DeleteProjectButton';
 import { getProjects } from '@/lib/db';
 import styles from './dashboard.module.css';
 
@@ -28,7 +29,7 @@ export default async function Dashboard() {
                             </div>
                             <div className={styles.actions}>
                                 <Link href={`/admin/project/${p.id}`} className={styles.editBtn}>Edit</Link>
-                                {/* Delete would need a client component or server action form */}
+                                <DeleteProjectButton id={p.id} title={p.title} />
                             </div>
                         </div>
                     ))
