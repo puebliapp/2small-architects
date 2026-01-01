@@ -25,7 +25,7 @@ export default function Header() {
                     {/* Projects link removed as requested */}
                 </div>
 
-                <div className={`${styles.center} ${isAboutOpen ? styles.hidden : ''}`}>
+                <div className={styles.center}>
                     <Link href="/" className={styles.dotsLink} onClick={handleHomeClick}>
                         <span className={styles.dot}></span>
                         <span className={styles.dot}></span>
