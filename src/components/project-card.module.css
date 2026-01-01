@@ -94,16 +94,48 @@
 .expandedContent {
     width: 50%;
     padding-top: 0;
+    /* Aligned with top of image? */
     position: relative;
+    /* No overflow hidden here if we want to debug, but hidden is safer for masking */
     overflow: hidden;
     z-index: 0;
     padding-left: 1rem;
+    /* Add padding to prevent clipping on the left */
     padding-right: 1rem;
     box-sizing: border-box;
-    /* Framer Motion will handle the slide animate-reveal */
+    z-index: 0;
+    /* Behind the image */
+
+    /* Animation: Pure Translate X. No opacity fade. */
+    animation: panelReveal 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    transform: translateX(-100%);
+    /* Start hidden behind left column */
+    opacity: 1;
 }
 
-/* No keyframes needed, handled by motion */
+.closing .expandedContent {
+    animation: panelHide 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes panelReveal {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes panelHide {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
 
 .dotsIcon {
     margin-bottom: 2rem;

@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import styles from './project-card.module.css';
 
-// ... (ProjectData interface remains same)
 export interface ProjectData {
     id: string;
     title: string;
@@ -17,7 +16,7 @@ export interface ProjectData {
     description2?: string;
     description3?: string;
     pressLink?: string;
-    dotsIconUrl?: string;
+    dotsIconUrl?: string; // from DB (snake_case mapped to camelCase in db.ts? need to check db.ts)
 }
 
 interface Props {
@@ -30,13 +29,20 @@ interface Props {
 export default function ProjectCard({ project, isExpanded, isHidden, onClose }: Props) {
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
 
     const gallery = project.images && project.images.length > 0
         ? project.images
         : [project.imageUrl];
 
+    // Reset closing state when expanded changes 
+    useEffect(() => {
+        if (!isExpanded) setIsClosing(false);
+    }, [isExpanded]);
+
     useEffect(() => {
         let interval: NodeJS.Timeout;
+        // Carousel runs on hover, REGARDLESS of expanded state now.
         if (isHovered && gallery.length > 1) {
             interval = setInterval(() => {
                 setActiveImageIndex(prev => (prev + 1) % gallery.length);
@@ -52,8 +58,15 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
         if (isExpanded && onClose) {
             e.preventDefault();
             e.stopPropagation();
-            onClose(); // Close immediately to start layout transition
+            setIsClosing(true);
+            // Trigger close immediately so grid reorganization happens in parallel with animation
+            onClose();
         }
+    };
+
+    const handleAnimationEnd = () => {
+        // Animation end handler for potential future use
+        // Currently not needed as we close immediately
     };
 
     // Shared content for Left Column (Image + Info)
@@ -83,40 +96,26 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
         </motion.div>
     );
 
+    // Common transition for layout changes to match the CSS animation duration of 1.2s
+    // Defines a cubic-bezier(0.25, 1, 0.5, 1) using array syntax for Framer Motion
     const transitionConfig = { duration: 1.2, ease: [0.25, 1, 0.5, 1] as const };
 
     return (
         <motion.div
             layout
             transition={transitionConfig}
-            className={`${styles.card} ${isExpanded ? styles.expanded : ''} ${isHidden ? styles.desktopHidden : ''}`}
+            className={`${styles.card} ${isExpanded ? styles.expanded : ''} ${isClosing ? styles.closing : ''} ${isHidden ? styles.desktopHidden : ''}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             <div className={styles.innerWrapper}>
                 {isExpanded ? (
-                    <div style={{ display: 'flex', width: '100%', height: '100%', flexDirection: 'row', gap: '1rem' }}>
+                    <>
                         {leftColumnContent}
-                    </div>
-                ) : (
-                    <Link
-                        href={`/?project=${project.slug}`}
-                        scroll={false}
-                        className={styles.linkWrapper}
-                    >
-                        {leftColumnContent}
-                    </Link>
-                )}
-
-                <AnimatePresence>
-                    {isExpanded && (
-                        <motion.div
-                            key="expanded-content"
-                            initial={{ x: "20%", opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            exit={{ x: "20%", opacity: 0 }}
-                            transition={transitionConfig}
+                        {/* Expanded Content Panel */}
+                        <div
                             className={styles.expandedContent}
+                            onAnimationEnd={handleAnimationEnd}
                         >
                             <div className={styles.dotsIcon}>
                                 {project.dotsIconUrl ? (
@@ -170,15 +169,27 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
                             <div
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    if (onClose) onClose();
+                                    if (onClose) {
+                                        setIsClosing(true);
+                                        onClose();
+                                    }
                                 }}
                                 className={styles.closeArea}
-                                style={{ cursor: 'pointer' }}
                                 aria-label="Close"
                             ></div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                        </div>
+                    </>
+                ) : (
+                    /* When collapsed, wrap content in Link for navigation */
+                    /* Note: Link wraps the inner content but constrained by parent grid cell */
+                    <Link
+                        href={`/?project=${project.slug}`}
+                        scroll={false}
+                        className={styles.linkWrapper}
+                    >
+                        {leftColumnContent}
+                    </Link>
+                )}
             </div>
         </motion.div>
     );
