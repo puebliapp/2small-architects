@@ -1,3 +1,4 @@
+'use client';
 import { createProject, updateProject } from '@/app/actions';
 import styles from './form.module.css';
 import { ProjectData } from './ProjectCard';
