@@ -28,7 +28,7 @@
 
 .expanded .innerWrapper {
     flex-direction: row;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 /* LEFT COLUMN (Image) */
@@ -99,9 +99,9 @@
     /* No overflow hidden here if we want to debug, but hidden is safer for masking */
     overflow: hidden;
     z-index: 0;
-    padding-left: 2rem;
+    padding-left: 1rem;
     /* Add padding to prevent clipping on the left */
-    padding-right: 2rem;
+    padding-right: 1rem;
     box-sizing: border-box;
     z-index: 0;
     /* Behind the image */
