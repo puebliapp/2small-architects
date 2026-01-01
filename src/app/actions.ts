@@ -176,3 +176,27 @@ export async function removeImageFromProject(id: string, imageUrl: string) {
         return { success: false, error: String(e) };
     }
 }
+
+export async function updateSiteLogo(formData: FormData) {
+    const logoFile = formData.get('logoFile') as File;
+
+    if (!logoFile || logoFile.size === 0) {
+        return { success: false, error: 'No se ha seleccionado ningún archivo' };
+    }
+
+    try {
+        const blob = await put(logoFile.name, logoFile, {
+            access: 'public',
+            addRandomSuffix: true
+        });
+
+        await sql`UPDATE site_settings SET logo_url = ${blob.url}`;
+
+        revalidatePath('/admin/dashboard');
+        revalidatePath('/');
+        return { success: true };
+    } catch (e) {
+        console.error('Logo update failed', e);
+        return { success: false, error: String(e) };
+    }
+}

@@ -17,14 +17,17 @@
 }
 
 .group input,
-.group textarea {
+.group textarea,
+.input {
     padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-family: inherit;
+    width: 100%;
 }
 
-.submit {
+.submit,
+.submitBtn {
     background: black;
     color: white;
     padding: 1rem;
@@ -32,4 +35,14 @@
     font-weight: 600;
     cursor: pointer;
     margin-top: 1rem;
+    transition: opacity 0.2s;
+}
+
+.submitBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.submitBtn:hover:not(:disabled) {
+    opacity: 0.8;
 }

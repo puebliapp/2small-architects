@@ -33,10 +33,15 @@
 
 .logoSvg {
     display: block;
-    width: 60px;
-    /* Adjusting width to be more prominently small as per logo structure */
+    width: 120px;
     height: auto;
-    color: var(--primary);
+}
+
+.svgTextLarge {
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 40px;
+    fill: var(--primary);
 }
 
 .svgTextSmall {

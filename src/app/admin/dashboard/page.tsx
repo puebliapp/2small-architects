@@ -1,12 +1,14 @@
 import Link from 'next/link';
 import DeleteProjectButton from '@/components/DeleteProjectButton';
-import { getProjects } from '@/lib/db';
+import { getProjects, getSiteSettings } from '@/lib/db';
 import styles from './dashboard.module.css';
+import SiteSettingsForm from '@/components/SiteSettingsForm';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Dashboard() {
     const projects = await getProjects();
+    const settings = await getSiteSettings();
 
     return (
         <div className={styles.container}>
@@ -16,6 +18,8 @@ export default async function Dashboard() {
                     + New Project
                 </Link>
             </header>
+
+            <SiteSettingsForm currentLogo={settings?.logoUrl} />
 
             <div className={styles.list}>
                 {projects.length === 0 ? (

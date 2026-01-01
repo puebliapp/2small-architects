@@ -36,21 +36,12 @@ export async function getProjects() {
         FROM projects 
         ORDER BY created_at DESC
       `;
-    // If we have rows, return them. If empty, return empty (so user sees their empty DB).
-    // Only return mock data if there is an ERROR connecting (and maybe only in dev).
     return rows as any[];
   } catch (e) {
     console.error("DB Error:", e);
-    // In production, we might prefer to show empty state + error rather than mock data
-    // to avoid confusion "I deleted everything but it's still there".
-    // But for safety let's return empty array if error occurs in prod?
-    // Or keep mock data only if locally developing.
     if (process.env.NODE_ENV === 'development') {
       return PROJECTS;
     }
-    // In prod, return empty array so at least site loads (but blank).
-    // Or re-throw? Re-throwing 500s the site.
-    // Let's return empty array so user knows connection worked (or failed safely).
     return [];
   }
 }
@@ -72,5 +63,12 @@ export async function getProjectById(id: string) {
   }
 }
 
-
-
+export async function getSiteSettings() {
+  try {
+    const { rows } = await sql`SELECT id, logo_url as "logoUrl" FROM site_settings LIMIT 1`;
+    return rows[0] as { id: string, logoUrl: string | null };
+  } catch (e) {
+    console.error("DB Error fetching settings:", e);
+    return { id: '', logoUrl: null };
+  }
+}
