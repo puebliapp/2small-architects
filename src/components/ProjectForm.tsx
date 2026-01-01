@@ -1,28 +1,33 @@
+'use client';
 import { createProject, updateProject } from '@/app/actions';
 import styles from './form.module.css';
 import { ProjectData } from './ProjectCard';
-import { useFormStatus } from 'react-dom';
+import { useState } from 'react';
 
 interface Props {
     initialData?: ProjectData;
 }
 
-function SubmitButton({ isEditing }: { isEditing: boolean }) {
-    const { pending } = useFormStatus();
-
-    return (
-        <button type="submit" className={styles.submit} disabled={pending}>
-            {pending ? (isEditing ? 'Updating...' : 'Creating...') : (isEditing ? 'Update Project' : 'Create Project')}
-        </button>
-    );
-}
-
 export default function ProjectForm({ initialData }: Props) {
-    const action = initialData ? updateProject.bind(null, initialData.id) : createProject;
-    const isEditing = !!initialData;
+    const serverAction = initialData ? updateProject.bind(null, initialData.id) : createProject;
+    const [pending, setPending] = useState(false);
+
+    async function handleSubmit(formData: FormData) {
+        setPending(true);
+        try {
+            await serverAction(formData);
+            // If success, usually redirect happens and component unmounts.
+            // But if we want to be safe or if redirect is handled differently:
+            // setPending(false); // Only if we stay on page
+        } catch (error) {
+            console.error(error);
+            setPending(false);
+            alert('Something went wrong. Please check the logs.');
+        }
+    }
 
     return (
-        <form action={action} className={styles.form}>
+        <form action={handleSubmit} className={styles.form}>
             <div className={styles.group}>
                 <label>Title</label>
                 <input name="title" required defaultValue={initialData?.title} placeholder="e.g. Casa Agustin" />
@@ -107,7 +112,12 @@ export default function ProjectForm({ initialData }: Props) {
                 <input name="pressLink" defaultValue={initialData?.pressLink} placeholder="https://..." />
             </div>
 
-            <SubmitButton isEditing={isEditing} />
+            <button type="submit" className={styles.submit} disabled={pending}>
+                {pending
+                    ? (initialData ? 'Updating...' : 'Creating...')
+                    : (initialData ? 'Update Project' : 'Create Project')
+                }
+            </button>
         </form>
     );
 }
