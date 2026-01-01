@@ -2,6 +2,8 @@ import ProjectForm from '@/components/ProjectForm';
 import { getProjectById } from '@/lib/db';
 import styles from './page.module.css';
 
+export const dynamic = 'force-dynamic';
+
 export default async function EditProjectPage({
     params
 }: {
