@@ -116,5 +116,10 @@
     font-size: 1rem;
     font-weight: 500;
     color: var(--primary);
-    /* Ensure Blue */
+    /* Sticky positioning: stays in viewport while scrolling, stops at natural position */
+    position: sticky;
+    top: calc(100vh - 4rem);
+    /* Stick near bottom of viewport */
+    align-self: flex-start;
+    /* Allows sticky to work properly */
 }
