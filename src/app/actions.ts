@@ -10,6 +10,8 @@ export async function createProject(formData: FormData) {
     const location = formData.get('location') as string;
     const type = formData.get('type') as string;
     const description = formData.get('description') as string;
+    const description2 = formData.get('description2') as string;
+    const description3 = formData.get('description3') as string;
     const pressLink = formData.get('pressLink') as string;
 
     // File Uploads
@@ -56,8 +58,8 @@ export async function createProject(formData: FormData) {
         // If user uploads gallery, we save it.
 
         await sql`
-            INSERT INTO projects (title, slug, location, type, description, image_url, dots_icon_url, images, press_link)
-            VALUES (${title}, ${slug}, ${location}, ${type}, ${description}, ${imageUrl}, ${dotsIconUrl}, ${galleryUrls as any}, ${pressLink})
+            INSERT INTO projects (title, slug, location, type, description, description_2, description_3, image_url, dots_icon_url, images, press_link)
+            VALUES (${title}, ${slug}, ${location}, ${type}, ${description}, ${description2}, ${description3}, ${imageUrl}, ${dotsIconUrl}, ${galleryUrls as any}, ${pressLink})
         `;
 
         revalidatePath('/admin/dashboard');
@@ -75,6 +77,8 @@ export async function updateProject(id: string, formData: FormData) {
     const location = formData.get('location') as string;
     const type = formData.get('type') as string;
     const description = formData.get('description') as string;
+    const description2 = formData.get('description2') as string;
+    const description3 = formData.get('description3') as string;
     const pressLink = formData.get('pressLink') as string;
 
     const imageFile = formData.get('imageFile') as File;
@@ -126,6 +130,8 @@ export async function updateProject(id: string, formData: FormData) {
             location = ${location}, 
             type = ${type}, 
             description = ${description},
+            description_2 = ${description2},
+            description_3 = ${description3},
             press_link = ${pressLink}
             WHERE id = ${id}
         `;

@@ -30,7 +30,9 @@ import { PROJECTS } from './data';
 export async function getProjects() {
   try {
     const { rows } = await sql`
-        SELECT id, title, slug, location, type, description, image_url as "imageUrl", dots_icon_url as "dotsIconUrl", images 
+        SELECT id, title, slug, location, type, description, 
+               description_2 as "description2", description_3 as "description3",
+               image_url as "imageUrl", dots_icon_url as "dotsIconUrl", images 
         FROM projects 
         ORDER BY created_at DESC
       `;
@@ -57,7 +59,9 @@ export async function getProjects() {
 export async function getProjectById(id: string) {
   try {
     const { rows } = await sql`
-        SELECT id, title, slug, location, type, description, image_url as "imageUrl", dots_icon_url as "dotsIconUrl", images, press_link as "pressLink"
+        SELECT id, title, slug, location, type, description,
+               description_2 as "description2", description_3 as "description3",
+               image_url as "imageUrl", dots_icon_url as "dotsIconUrl", images, press_link as "pressLink"
         FROM projects 
         WHERE id = ${id}
       `;

@@ -141,6 +141,20 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
                                     className={styles.description}
                                     dangerouslySetInnerHTML={{ __html: project.description || '' }}
                                 />
+                                {project.description2 && (
+                                    <div
+                                        className={styles.description}
+                                        style={{ opacity: 0.3, marginTop: '1rem' }}
+                                        dangerouslySetInnerHTML={{ __html: project.description2 }}
+                                    />
+                                )}
+                                {project.description3 && (
+                                    <div
+                                        className={styles.description}
+                                        style={{ opacity: 0.3, marginTop: '1rem' }}
+                                        dangerouslySetInnerHTML={{ __html: project.description3 }}
+                                    />
+                                )}
 
                                 {project.pressLink && (
                                     <div className={styles.press}>

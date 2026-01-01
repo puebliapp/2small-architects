@@ -8,7 +8,9 @@ export async function GET() {
             ALTER TABLE projects 
             ADD COLUMN IF NOT EXISTS press_link TEXT,
             ADD COLUMN IF NOT EXISTS dots_icon_url TEXT,
-            ADD COLUMN IF NOT EXISTS images TEXT[] DEFAULT '{}';
+            ADD COLUMN IF NOT EXISTS images TEXT[] DEFAULT '{}',
+            ADD COLUMN IF NOT EXISTS description_2 TEXT,
+            ADD COLUMN IF NOT EXISTS description_3 TEXT;
         `;
         return NextResponse.json({ message: 'Database updated successfully (columns added/verified)' });
     } catch (error) {

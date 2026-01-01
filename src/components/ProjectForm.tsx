@@ -129,12 +129,32 @@ export default function ProjectForm({ initialData }: Props) {
             </div>
 
             <div className={styles.group}>
-                <label>Description (HTML allowed)</label>
+                <label>Descripción 1 (Principal)</label>
                 <textarea
                     name="description"
-                    rows={5}
+                    rows={4}
                     defaultValue={initialData?.description}
-                    placeholder="<p>El proyecto...</p>"
+                    placeholder="Contenido principal..."
+                ></textarea>
+            </div>
+
+            <div className={styles.group}>
+                <label>Descripción 2 (Opacidad 30%)</label>
+                <textarea
+                    name="description2"
+                    rows={3}
+                    defaultValue={initialData?.description2}
+                    placeholder="Segunda parte..."
+                ></textarea>
+            </div>
+
+            <div className={styles.group}>
+                <label>Descripción 3 (Opacidad 30%)</label>
+                <textarea
+                    name="description3"
+                    rows={3}
+                    defaultValue={initialData?.description3}
+                    placeholder="Tercera parte..."
                 ></textarea>
             </div>
 
