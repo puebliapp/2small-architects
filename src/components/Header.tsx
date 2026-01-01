@@ -27,16 +27,13 @@ export default function Header() {
 
                 <div className={styles.center}>
                     <Link href="/" className={styles.dotsLink} onClick={handleHomeClick}>
-                        {/* Blue dots layer (base) */}
-                        <div className={styles.dotsLayer}>
-                            <span className={styles.dotBlue}></span>
-                            <span className={styles.dotBlue}></span>
-                        </div>
-                        {/* White dots layer (overlay with clip-path mask) */}
-                        <div className={`${styles.dotsLayer} ${styles.dotsWhite} ${isAboutOpen ? styles.revealed : ''}`}>
-                            <span className={styles.dotWhite}></span>
-                            <span className={styles.dotWhite}></span>
-                        </div>
+                        {/* Blue dots - always visible base layer */}
+                        <span className={styles.dot}></span>
+                        <span className={styles.dot}></span>
+
+                        {/* White dots - revealed by drawer mask */}
+                        <span className={`${styles.dotWhite} ${isAboutOpen ? styles.revealed : ''}`}></span>
+                        <span className={`${styles.dotWhite} ${isAboutOpen ? styles.revealed : ''}`}></span>
                     </Link>
                 </div>
 
