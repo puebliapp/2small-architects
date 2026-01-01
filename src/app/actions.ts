@@ -48,7 +48,7 @@ export async function createProject(formData: FormData) {
 
         await sql`
             INSERT INTO projects (title, slug, location, type, description, image_url, dots_icon_url, images, press_link)
-            VALUES (${title}, ${slug}, ${location}, ${type}, ${description}, ${imageUrl}, ${dotsIconUrl}, ${galleryUrls}, ${pressLink})
+            VALUES (${title}, ${slug}, ${location}, ${type}, ${description}, ${imageUrl}, ${dotsIconUrl}, ${galleryUrls as any}, ${pressLink})
         `;
 
         revalidatePath('/admin/dashboard');
