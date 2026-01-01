@@ -30,7 +30,7 @@ import { PROJECTS } from './data';
 export async function getProjects() {
   try {
     const { rows } = await sql`
-        SELECT id, title, slug, location, type, description, image_url as "imageUrl", images 
+        SELECT id, title, slug, location, type, description, image_url as "imageUrl", dots_icon_url as "dotsIconUrl", images 
         FROM projects 
         ORDER BY created_at DESC
       `;

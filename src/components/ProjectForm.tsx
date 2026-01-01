@@ -26,8 +26,24 @@ export default function ProjectForm() {
             </div>
 
             <div className={styles.group}>
-                <label>Image URL (Main)</label>
-                <input name="imageUrl" placeholder="https://..." />
+                <label>Project Image</label>
+                <input
+                    name="imageFile"
+                    type="file"
+                    accept="image/*"
+                    required
+                    className={styles.input}
+                />
+            </div>
+
+            <div className={styles.group}>
+                <label>Dots Icon (PNG/SVG, Optional)</label>
+                <input
+                    name="dotsIconFile"
+                    type="file"
+                    accept="image/png, image/svg+xml"
+                    className={styles.input}
+                />
             </div>
 
             <div className={styles.group}>
