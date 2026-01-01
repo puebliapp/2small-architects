@@ -51,19 +51,22 @@ export async function getProjects() {
     // Let's return empty array so user knows connection worked (or failed safely).
     return [];
   }
-  // Fetch single project by ID (for admin edit)
-  export async function getProjectById(id: string) {
-    try {
-      const { rows } = await sql`
-        SELECT id, title, slug, location, type, description, image_url as "imageUrl", dots_icon_url as "dotsIconUrl", images 
+}
+
+// Fetch single project by ID (for admin edit)
+export async function getProjectById(id: string) {
+  try {
+    const { rows } = await sql`
+        SELECT id, title, slug, location, type, description, image_url as "imageUrl", dots_icon_url as "dotsIconUrl", images, press_link as "pressLink"
         FROM projects 
         WHERE id = ${id}
       `;
-      return rows[0] as any;
-    } catch (e) {
-      console.error("DB Error fetching project:", e);
-      return null;
-    }
+    return rows[0] as any;
+  } catch (e) {
+    console.error("DB Error fetching project:", e);
+    return null;
   }
+}
+
 
 

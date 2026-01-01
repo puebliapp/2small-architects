@@ -113,7 +113,7 @@ export async function updateProject(id: string, formData: FormData) {
             // Append to existing array. usage: array_cat code is slightly specific.
             // Standard SQL: images || newArray
             // Postgres: array_cat(images, ${newGalleryUrls})
-            await sql`UPDATE projects SET images = array_cat(images, ${newGalleryUrls}) WHERE id = ${id}`;
+            await sql`UPDATE projects SET images = array_cat(images, ${newGalleryUrls as any}) WHERE id = ${id}`;
         }
 
         // Execute main fields update
