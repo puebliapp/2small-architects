@@ -23,19 +23,28 @@ export async function createProject(formData: FormData) {
 
     try {
         if (imageFile && imageFile.size > 0) {
-            const blob = await put(imageFile.name, imageFile, { access: 'public' });
+            const blob = await put(imageFile.name, imageFile, {
+                access: 'public',
+                addRandomSuffix: true
+            });
             imageUrl = blob.url;
         }
 
         if (dotsIconFile && dotsIconFile.size > 0) {
-            const blob = await put(dotsIconFile.name, dotsIconFile, { access: 'public' });
+            const blob = await put(dotsIconFile.name, dotsIconFile, {
+                access: 'public',
+                addRandomSuffix: true
+            });
             dotsIconUrl = blob.url;
         }
 
         // Upload Gallery
         for (const file of galleryFiles) {
             if (file && file.size > 0) {
-                const blob = await put(file.name, file, { access: 'public' });
+                const blob = await put(file.name, file, {
+                    access: 'public',
+                    addRandomSuffix: true
+                });
                 galleryUrls.push(blob.url);
             }
         }
@@ -89,13 +98,19 @@ export async function updateProject(id: string, formData: FormData) {
 
         // Handle Image Update
         if (imageFile && imageFile.size > 0) {
-            const blob = await put(imageFile.name, imageFile, { access: 'public' });
+            const blob = await put(imageFile.name, imageFile, {
+                access: 'public',
+                addRandomSuffix: true
+            });
             await sql`UPDATE projects SET image_url = ${blob.url} WHERE id = ${id}`;
         }
 
         // Handle Dots Icon Update
         if (dotsIconFile && dotsIconFile.size > 0) {
-            const blob = await put(dotsIconFile.name, dotsIconFile, { access: 'public' });
+            const blob = await put(dotsIconFile.name, dotsIconFile, {
+                access: 'public',
+                addRandomSuffix: true
+            });
             await sql`UPDATE projects SET dots_icon_url = ${blob.url} WHERE id = ${id}`;
         }
 
@@ -103,7 +118,10 @@ export async function updateProject(id: string, formData: FormData) {
         const newGalleryUrls: string[] = [];
         for (const file of galleryFiles) {
             if (file && file.size > 0) {
-                const blob = await put(file.name, file, { access: 'public' });
+                const blob = await put(file.name, file, {
+                    access: 'public',
+                    addRandomSuffix: true
+                });
                 newGalleryUrls.push(blob.url);
             }
         }
