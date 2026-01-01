@@ -3,7 +3,13 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
     try {
-        // Add missing columns
+        // Allow duplicate slugs as per user request
+        await sql`
+            ALTER TABLE projects 
+            DROP CONSTRAINT IF EXISTS projects_slug_key;
+        `;
+
+        // Add missing columns if they don't exist
         await sql`
             ALTER TABLE projects 
             ADD COLUMN IF NOT EXISTS press_link TEXT,
@@ -12,7 +18,7 @@ export async function GET() {
             ADD COLUMN IF NOT EXISTS description_2 TEXT,
             ADD COLUMN IF NOT EXISTS description_3 TEXT;
         `;
-        return NextResponse.json({ message: 'Database updated successfully (columns added/verified)' });
+        return NextResponse.json({ message: 'Database updated successfully (uniqueness removed)' });
     } catch (error) {
         console.error('Migration failed', error);
         return NextResponse.json({ error: String(error) }, { status: 500 });

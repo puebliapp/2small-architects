@@ -11,7 +11,7 @@ export async function createTable() {
         title VARCHAR(255) NOT NULL,
         location VARCHAR(255),
         type VARCHAR(255),
-        slug VARCHAR(255) UNIQUE NOT NULL,
+        slug VARCHAR(255) NOT NULL,
         image_url TEXT,
         description TEXT,
         images TEXT[], -- Array of strings for gallery
