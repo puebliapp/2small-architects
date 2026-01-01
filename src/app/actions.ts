@@ -131,6 +131,7 @@ export async function updateProject(id: string, formData: FormData) {
         `;
 
         revalidatePath('/admin/dashboard');
+        revalidatePath(`/admin/project/${id}`);
         revalidatePath('/');
         return { success: true };
     } catch (e) {
