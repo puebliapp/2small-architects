@@ -14,6 +14,7 @@ export interface ProjectData {
     images?: string[];
     description?: string;
     pressLink?: string;
+    dotsIconUrl?: string; // from DB (snake_case mapped to camelCase in db.ts? need to check db.ts)
 }
 
 interface Props {
@@ -115,13 +116,24 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
                             onAnimationEnd={handleAnimationEnd}
                         >
                             <div className={styles.dotsIcon}>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="black">
-                                    <circle cx="12" cy="4" r="2.5" />
-                                    <circle cx="12" cy="12" r="2.5" />
-                                    <circle cx="12" cy="20" r="2.5" />
-                                    <circle cx="4" cy="12" r="2.5" />
-                                    <circle cx="20" cy="12" r="2.5" />
-                                </svg>
+                                {project.dotsIconUrl ? (
+                                    <div style={{ position: 'relative', width: '24px', height: '24px' }}>
+                                        <Image
+                                            src={project.dotsIconUrl}
+                                            alt="Dots"
+                                            fill
+                                            style={{ objectFit: 'contain' }}
+                                        />
+                                    </div>
+                                ) : (
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="black">
+                                        <circle cx="12" cy="4" r="2.5" />
+                                        <circle cx="12" cy="12" r="2.5" />
+                                        <circle cx="12" cy="20" r="2.5" />
+                                        <circle cx="4" cy="12" r="2.5" />
+                                        <circle cx="20" cy="12" r="2.5" />
+                                    </svg>
+                                )}
                             </div>
 
                             <div className={styles.textContent}>
