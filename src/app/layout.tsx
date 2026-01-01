@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { UIProvider } from "@/context/UIContext";
 import AboutDrawer from "@/components/AboutDrawer";
 import CustomCursor from "@/components/CustomCursor";
+import ContactButton from "@/components/ContactButton";
 
 const manrope = Manrope({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className={manrope.className}>
         <UIProvider>
           <CustomCursor />
+          <ContactButton />
           <Header />
           <AboutDrawer />
           <main style={{ minHeight: '100vh' }}>
