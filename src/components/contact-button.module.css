@@ -1,6 +1,6 @@
 .contactButton {
     position: fixed;
-    bottom: calc(2rem - 12px);
+    bottom: calc(2rem - 6px);
     right: 2rem;
     background: transparent;
     border: none;
