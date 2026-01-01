@@ -7,6 +7,7 @@ export default function CustomCursor() {
     const [clicked, setClicked] = useState(false);
     const [linkHovered, setLinkHovered] = useState(false);
     const [hidden, setHidden] = useState(true);
+    const [whiteCursor, setWhiteCursor] = useState(false);
 
     useEffect(() => {
         const addEventListeners = () => {
@@ -33,6 +34,10 @@ export default function CustomCursor() {
             const target = e.target as HTMLElement;
             const isLink = target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button');
             setLinkHovered(!!isLink);
+
+            // Check for white cursor request
+            const isWhite = target.closest('[data-cursor="white"]');
+            setWhiteCursor(!!isWhite);
         };
 
         const onMouseDown = () => {
@@ -60,6 +65,7 @@ export default function CustomCursor() {
     ${clicked ? styles.clicked : ''} 
     ${linkHovered ? styles.hovered : ''}
     ${hidden ? styles.hidden : ''}
+    ${whiteCursor ? styles.white : ''}
   `;
 
     return (
