@@ -7,10 +7,12 @@ export default function Footer() {
             <div className={styles.container}>
                 {/* 1. Large Logo Stack */}
                 <div className={styles.logoStack}>
-                    <span className={styles.number}>2</span>
-                    <span className={styles.small}>SM</span>
-                    <span className={styles.small}>ALL</span>
-                    <span className={styles.architects}>ARCHITECTS</span>
+                    <svg width="120" height="160" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.logoSvg}>
+                        <text x="0" y="40" className={styles.svgTextLarge}>2</text>
+                        <text x="0" y="85" className={styles.svgTextLarge}>SM</text>
+                        <text x="0" y="125" className={styles.svgTextLarge}>ALL</text>
+                        <text x="0" y="155" className={styles.svgTextSmall}>ARCHITECTS</text>
+                    </svg>
                 </div>
 
                 {/* 2. Inquiry Text (Mixed Languages) */}

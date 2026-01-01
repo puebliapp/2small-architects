@@ -29,29 +29,27 @@
 .logoStack {
     display: flex;
     flex-direction: column;
-    line-height: 0.9;
+}
+
+.logoSvg {
+    display: block;
+    width: 120px;
+    height: auto;
+}
+
+.svgTextLarge {
     font-family: inherit;
-    color: var(--primary);
-    /* Ensure Blue */
-}
-
-.number {
-    font-size: 3rem;
-    font-weight: 400;
-    margin-bottom: -0.2rem;
-}
-
-.small {
-    font-size: 3rem;
-    font-weight: 400;
-    text-transform: uppercase;
-}
-
-.architects {
-    font-size: 1rem;
-    margin-top: 0.5rem;
     font-weight: 500;
-    letter-spacing: -0.02em;
+    font-size: 40px;
+    fill: var(--primary);
+}
+
+.svgTextSmall {
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 14px;
+    fill: var(--primary);
+    letter-spacing: 0.1em;
 }
 
 /* 2. Inquiry Block */

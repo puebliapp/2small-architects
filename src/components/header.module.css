@@ -41,37 +41,22 @@
 
 .dotsLink {
     text-decoration: none;
-    color: inherit;
     cursor: pointer;
-    font-size: 2rem;
-    /* Larger dots */
-    line-height: 0;
     display: flex;
-    gap: 4px;
+    gap: 8px;
+    align-items: center;
 }
 
-.dots {
-    letter-spacing: -2px;
-    /* Pull them tighter if font default tracking is too wide. Or use svg circles. */
-    /* Screenshot shows two solid blue circles.
-       Text "••" might look different depending on font.
-       Let's stick to text for now but make it bigger. 
-       Or better: replace with SVG circles for perfect "bolas". 
-       The user said "los dos puntos de arriba centrados deben de ser mas grandes"
-       and "Ojo con los colores".
-       I will keep text but ensure it's primary color.
-    */
-    color: var(--primary);
-    /* Explicitly set blue just in case inherit fails */
+.dot {
+    width: 14px;
+    height: 14px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-/* Override when inverted for white dots */
-.inverted .header {
-    color: white;
-}
-
-.inverted .dots {
-    color: white;
+.inverted .dot {
+    background-color: white;
 }
 
 .link:hover,

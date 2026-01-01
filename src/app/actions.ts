@@ -65,8 +65,11 @@ export async function createProject(formData: FormData) {
         revalidatePath('/admin/dashboard');
         revalidatePath('/');
         return { success: true };
-    } catch (error) {
+    } catch (error: any) {
         console.error('Failed to create project', error);
+        if (error.message?.includes('projects_slug_key')) {
+            return { success: false, error: 'El slug ya está en uso por otro proyecto. Por favor, elige uno diferente.' };
+        }
         return { success: false, error: String(error) };
     }
 }
@@ -140,8 +143,11 @@ export async function updateProject(id: string, formData: FormData) {
         revalidatePath(`/admin/project/${id}`);
         revalidatePath('/');
         return { success: true };
-    } catch (e) {
+    } catch (e: any) {
         console.error('Update failed', e);
+        if (e.message?.includes('projects_slug_key')) {
+            return { success: false, error: 'El slug ya está en uso por otro proyecto. Por favor, elige uno diferente.' };
+        }
         return { success: false, error: String(e) };
     }
 }

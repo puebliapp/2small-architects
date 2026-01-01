@@ -20,7 +20,8 @@ export default function Header() {
         */}
                 <div className={`${styles.center} ${isAboutOpen ? styles.hidden : ''}`}>
                     <Link href="/" className={styles.dotsLink}>
-                        <span className={styles.dots}>••</span>
+                        <span className={styles.dot}></span>
+                        <span className={styles.dot}></span>
                     </Link>
                 </div>
 
