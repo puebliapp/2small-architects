@@ -1,10 +1,22 @@
 'use client'; // Needs client for context
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useUI } from '@/context/UIContext';
 import styles from './header.module.css';
 
 export default function Header() {
     const { toggleAbout, isAboutOpen } = useUI();
+    const pathname = usePathname();
+
+    const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (pathname === '/') {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    };
 
     return (
         <header className={`${styles.header} ${isAboutOpen ? styles.inverted : ''}`}>
@@ -13,13 +25,8 @@ export default function Header() {
                     {/* Projects link removed as requested */}
                 </div>
 
-                {/* If drawer is open, we handle dots inside the drawer for precise positioning relative to blue panel
-            or we keep them here but change color. 
-            The requester said "arriba hay 3 puntos blancos ... distribuidos de la forma que aparecen".
-            It's safer to hide Global dots and let Drawer render its own specific dots layout.
-        */}
                 <div className={`${styles.center} ${isAboutOpen ? styles.hidden : ''}`}>
-                    <Link href="/" className={styles.dotsLink}>
+                    <Link href="/" className={styles.dotsLink} onClick={handleHomeClick}>
                         <span className={styles.dot}></span>
                         <span className={styles.dot}></span>
                     </Link>
