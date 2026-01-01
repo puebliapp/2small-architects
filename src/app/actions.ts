@@ -2,7 +2,7 @@
 import { sql } from '@vercel/postgres';
 import { put } from '@vercel/blob';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+
 
 export async function createProject(formData: FormData) {
     const title = formData.get('title') as string;
@@ -53,12 +53,11 @@ export async function createProject(formData: FormData) {
 
         revalidatePath('/admin/dashboard');
         revalidatePath('/');
+        return { success: true };
     } catch (error) {
         console.error('Failed to create project', error);
-        throw error;
+        return { success: false, error: String(error) };
     }
-
-    redirect('/admin/dashboard');
 }
 
 export async function updateProject(id: string, formData: FormData) {
@@ -129,10 +128,9 @@ export async function updateProject(id: string, formData: FormData) {
 
         revalidatePath('/admin/dashboard');
         revalidatePath('/');
+        return { success: true };
     } catch (e) {
         console.error('Update failed', e);
-        throw e; // Ensure client knows it failed
+        return { success: false, error: String(e) };
     }
-
-    redirect('/admin/dashboard');
 }

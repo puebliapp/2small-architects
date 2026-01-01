@@ -1,8 +1,8 @@
-'use client';
 import { createProject, updateProject } from '@/app/actions';
 import styles from './form.module.css';
 import { ProjectData } from './ProjectCard';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface Props {
     initialData?: ProjectData;
@@ -11,15 +11,19 @@ interface Props {
 export default function ProjectForm({ initialData }: Props) {
     const serverAction = initialData ? updateProject.bind(null, initialData.id) : createProject;
     const [pending, setPending] = useState(false);
+    const router = useRouter();
 
     async function handleSubmit(formData: FormData) {
         setPending(true);
         try {
-            await serverAction(formData);
-            // If success, usually redirect happens and component unmounts.
-            // But if we want to be safe or if redirect is handled differently:
-            // setPending(false); // Only if we stay on page
-        } catch (error) {
+            const res = await serverAction(formData);
+            if (res && res.success) {
+                router.push('/admin/dashboard');
+            } else {
+                setPending(false);
+                alert('Error saving project: ' + (res?.error || 'Unknown error'));
+            }
+        } catch (error: any) {
             console.error(error);
             setPending(false);
             alert('Something went wrong. Please check the logs.');
