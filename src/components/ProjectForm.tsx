@@ -1,13 +1,25 @@
 import { createProject, updateProject } from '@/app/actions';
 import styles from './form.module.css';
 import { ProjectData } from './ProjectCard';
+import { useFormStatus } from 'react-dom';
 
 interface Props {
     initialData?: ProjectData;
 }
 
+function SubmitButton({ isEditing }: { isEditing: boolean }) {
+    const { pending } = useFormStatus();
+
+    return (
+        <button type="submit" className={styles.submit} disabled={pending}>
+            {pending ? (isEditing ? 'Updating...' : 'Creating...') : (isEditing ? 'Update Project' : 'Create Project')}
+        </button>
+    );
+}
+
 export default function ProjectForm({ initialData }: Props) {
     const action = initialData ? updateProject.bind(null, initialData.id) : createProject;
+    const isEditing = !!initialData;
 
     return (
         <form action={action} className={styles.form}>
@@ -95,9 +107,7 @@ export default function ProjectForm({ initialData }: Props) {
                 <input name="pressLink" defaultValue={initialData?.pressLink} placeholder="https://..." />
             </div>
 
-            <button type="submit" className={styles.submit}>
-                {initialData ? 'Update Project' : 'Create Project'}
-            </button>
+            <SubmitButton isEditing={isEditing} />
         </form>
     );
 }
