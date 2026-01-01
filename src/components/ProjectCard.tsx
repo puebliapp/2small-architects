@@ -30,10 +30,24 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
+    const [imagesLoaded, setImagesLoaded] = useState<Set<number>>(new Set([0]));
 
     const gallery = project.images && project.images.length > 0
         ? project.images
         : [project.imageUrl];
+
+    // Preload all images on mount
+    useEffect(() => {
+        if (gallery.length > 1) {
+            gallery.forEach((src, index) => {
+                const img = new window.Image();
+                img.src = src;
+                img.onload = () => {
+                    setImagesLoaded(prev => new Set([...prev, index]));
+                };
+            });
+        }
+    }, [gallery]);
 
     // Reset closing state when expanded changes 
     useEffect(() => {
@@ -78,6 +92,28 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
                 onClick={handleImageClick}
                 style={{ position: 'relative' }}
             >
+                {/* Hidden images for preloading - Next.js will optimize and cache them */}
+                {gallery.map((src, idx) => (
+                    idx !== activeImageIndex && (
+                        <Image
+                            key={`preload-${idx}`}
+                            src={src}
+                            alt=""
+                            fill
+                            className={styles.image}
+                            sizes={isExpanded ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 25vw"}
+                            priority={idx === 0 || idx === 1} // Prioritize first two images
+                            style={{
+                                objectFit: 'cover',
+                                opacity: 0,
+                                pointerEvents: 'none',
+                                position: 'absolute'
+                            }}
+                        />
+                    )
+                ))}
+
+                {/* Visible active image */}
                 <Image
                     key={activeImageIndex}
                     src={gallery[activeImageIndex]}
@@ -85,7 +121,7 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
                     fill
                     className={styles.image}
                     sizes={isExpanded ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 25vw"}
-                    priority={isExpanded || isHovered}
+                    priority={true}
                     style={{ objectFit: 'cover' }}
                 />
             </motion.div>
