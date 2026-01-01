@@ -76,7 +76,7 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
                 layout
                 className={styles.imageContainer}
                 onClick={handleImageClick}
-                style={{ cursor: isExpanded ? 'pointer' : 'default', position: 'relative' }}
+                style={{ position: 'relative' }}
             >
                 <Image
                     key={activeImageIndex}
@@ -86,7 +86,7 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
                     className={styles.image}
                     sizes={isExpanded ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 25vw"}
                     priority={isExpanded || isHovered}
-                    style={{ cursor: isExpanded ? 'zoom-out' : 'default', objectFit: 'cover' }}
+                    style={{ objectFit: 'cover' }}
                 />
             </motion.div>
             <motion.div layout className={styles.info}>
