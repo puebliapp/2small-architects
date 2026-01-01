@@ -14,16 +14,10 @@ export default function AboutDrawer() {
             />
 
             {/* Drawer */}
-            <aside className={`${styles.drawer} ${isAboutOpen ? styles.open : ''}`}>
-
-                {/* Custom Header elements for the Blue View */}
-                <div className={styles.drawerHeaderDecor}>
-                    {/* Two dots centered(ish) */}
-                    <div className={styles.centerDots}>••</div>
-                    {/* One dot near right */}
-                    <div className={styles.rightDot}>•</div>
-                </div>
-
+            <aside
+                className={`${styles.drawer} ${isAboutOpen ? styles.open : ''}`}
+                data-cursor="white"
+            >
                 <div className={styles.content}>
                     <section className={styles.intro}>
                         <h2>Quienes lo hacen posible &nbsp; <span>Those who make it happen</span> &nbsp; <span>Ceux qui le rendent possible</span></h2>
@@ -73,10 +67,6 @@ export default function AboutDrawer() {
                             <h3>Celia Santos Villaverde</h3>
                             <p>Graphic and motion designer</p>
                         </div>
-                    </div>
-
-                    <div className={styles.footerContact}>
-                        <span>Contact</span>
                     </div>
                 </div>
             </aside>
