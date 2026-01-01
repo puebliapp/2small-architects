@@ -119,7 +119,7 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
                         >
                             <div className={styles.dotsIcon}>
                                 {project.dotsIconUrl ? (
-                                    <div style={{ position: 'relative', width: '24px', height: '24px' }}>
+                                    <div style={{ position: 'relative', width: '29px', height: '29px' }}>
                                         <Image
                                             src={project.dotsIconUrl}
                                             alt="Dots"
@@ -128,7 +128,7 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
                                         />
                                     </div>
                                 ) : (
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="black">
+                                    <svg width="29" height="29" viewBox="0 0 24 24" fill="black">
                                         <circle cx="12" cy="4" r="2.5" />
                                         <circle cx="12" cy="12" r="2.5" />
                                         <circle cx="12" cy="20" r="2.5" />
