@@ -27,13 +27,8 @@ export default function Header() {
 
                 <div className={styles.center}>
                     <Link href="/" className={styles.dotsLink} onClick={handleHomeClick}>
-                        {/* Blue dots - always visible base layer */}
                         <span className={styles.dot}></span>
                         <span className={styles.dot}></span>
-
-                        {/* White dots - revealed by drawer mask */}
-                        <span className={`${styles.dotWhite} ${isAboutOpen ? styles.revealed : ''}`}></span>
-                        <span className={`${styles.dotWhite} ${isAboutOpen ? styles.revealed : ''}`}></span>
                     </Link>
                 </div>
 
