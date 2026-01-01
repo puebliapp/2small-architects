@@ -82,20 +82,6 @@ export async function updateProject(id: string, formData: FormData) {
     const galleryFiles = formData.getAll('galleryFiles') as File[];
 
     try {
-        // Construct generic update parts
-        // For files, we only update if new file provided.
-        // For gallery, we APPEND new files to existing array (using Postgres array_cat or just fetch/update).
-        // Simpler: array_cat(images, ${newUrls}).
-
-        let updateQuery = sql`UPDATE projects SET 
-            title = ${title}, 
-            slug = ${slug}, 
-            location = ${location}, 
-            type = ${type}, 
-            description = ${description},
-            press_link = ${pressLink}
-        `;
-
         // Handle Image Update
         if (imageFile && imageFile.size > 0) {
             const blob = await put(imageFile.name, imageFile, {
