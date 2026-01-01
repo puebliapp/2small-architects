@@ -55,7 +55,7 @@ export async function createProject(formData: FormData) {
         revalidatePath('/');
     } catch (error) {
         console.error('Failed to create project', error);
-        return;
+        throw error;
     }
 
     redirect('/admin/dashboard');
@@ -131,7 +131,7 @@ export async function updateProject(id: string, formData: FormData) {
         revalidatePath('/');
     } catch (e) {
         console.error('Update failed', e);
-        return;
+        throw e; // Ensure client knows it failed
     }
 
     redirect('/admin/dashboard');
