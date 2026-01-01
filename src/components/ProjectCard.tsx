@@ -13,6 +13,8 @@ export interface ProjectData {
     imageUrl: string;
     images?: string[];
     description?: string;
+    description2?: string;
+    description3?: string;
     pressLink?: string;
     dotsIconUrl?: string; // from DB (snake_case mapped to camelCase in db.ts? need to check db.ts)
 }
