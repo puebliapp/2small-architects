@@ -36,15 +36,23 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
         ? project.images
         : [project.imageUrl];
 
-    // Preload all images on mount
+    // Helper function to detect if URL is a video
+    const isVideo = (url: string) => {
+        const videoExtensions = ['.mp4', '.webm', '.mov', '.avi', '.m4v'];
+        return videoExtensions.some(ext => url.toLowerCase().endsWith(ext));
+    };
+
+    // Preload all images on mount (videos will load on demand)
     useEffect(() => {
         if (gallery.length > 1) {
             gallery.forEach((src, index) => {
-                const img = new window.Image();
-                img.src = src;
-                img.onload = () => {
-                    setImagesLoaded(prev => new Set([...prev, index]));
-                };
+                if (!isVideo(src)) {
+                    const img = new window.Image();
+                    img.src = src;
+                    img.onload = () => {
+                        setImagesLoaded(prev => new Set([...prev, index]));
+                    };
+                }
             });
         }
     }, [gallery]);
