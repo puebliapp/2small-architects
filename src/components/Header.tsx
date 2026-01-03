@@ -33,7 +33,7 @@ export default function Header() {
                 </div>
 
                 <div className={styles.right}>
-                    <button onClick={toggleAbout} className={styles.logoBtn}>SM all</button>
+                    <button onClick={toggleAbout} className={styles.logoBtn}>People</button>
                 </div>
             </nav>
         </header>
