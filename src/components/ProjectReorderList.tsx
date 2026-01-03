@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Reorder } from 'framer-motion';
 import { updateProjectsOrder } from '@/app/actions';
-import styles from './dashboard.module.css';
+import styles from './project-reorder.module.css';
 import Link from 'next/link';
 import DeleteProjectButton from './DeleteProjectButton';
 
