@@ -100,38 +100,60 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
                 onClick={handleImageClick}
                 style={{ position: 'relative' }}
             >
-                {/* Hidden images for preloading - Next.js will optimize and cache them */}
-                {gallery.map((src, idx) => (
-                    idx !== activeImageIndex && (
+                {isVideo(gallery[activeImageIndex]) ? (
+                    <video
+                        key={activeImageIndex}
+                        src={gallery[activeImageIndex]}
+                        className={styles.image}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0
+                        }}
+                    />
+                ) : (
+                    <>
+                        {/* Hidden images for preloading - Next.js will optimize and cache them */}
+                        {gallery.map((src, idx) => (
+                            idx !== activeImageIndex && !isVideo(src) && (
+                                <Image
+                                    key={`preload-${idx}`}
+                                    src={src}
+                                    alt=""
+                                    fill
+                                    className={styles.image}
+                                    sizes={isExpanded ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 25vw"}
+                                    priority={idx === 0 || idx === 1} // Prioritize first two images
+                                    style={{
+                                        objectFit: 'cover',
+                                        opacity: 0,
+                                        pointerEvents: 'none',
+                                        position: 'absolute'
+                                    }}
+                                />
+                            )
+                        ))}
+
+                        {/* Visible active image */}
                         <Image
-                            key={`preload-${idx}`}
-                            src={src}
-                            alt=""
+                            key={activeImageIndex}
+                            src={gallery[activeImageIndex]}
+                            alt={project.title}
                             fill
                             className={styles.image}
                             sizes={isExpanded ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 25vw"}
-                            priority={idx === 0 || idx === 1} // Prioritize first two images
-                            style={{
-                                objectFit: 'cover',
-                                opacity: 0,
-                                pointerEvents: 'none',
-                                position: 'absolute'
-                            }}
+                            priority={true}
+                            style={{ objectFit: 'cover' }}
                         />
-                    )
-                ))}
-
-                {/* Visible active image */}
-                <Image
-                    key={activeImageIndex}
-                    src={gallery[activeImageIndex]}
-                    alt={project.title}
-                    fill
-                    className={styles.image}
-                    sizes={isExpanded ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 25vw"}
-                    priority={true}
-                    style={{ objectFit: 'cover' }}
-                />
+                    </>
+                )}
             </motion.div>
             <motion.div layout className={styles.info}>
                 <h3 className={styles.title}>{project.title}</h3>

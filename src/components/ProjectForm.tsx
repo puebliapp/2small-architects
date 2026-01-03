@@ -45,6 +45,11 @@ export default function ProjectForm({ initialData }: Props) {
         }
     }
 
+    const isVideo = (url: string) => {
+        const videoExtensions = ['.mp4', '.webm', '.mov', '.avi', '.m4v'];
+        return videoExtensions.some(ext => url.toLowerCase().endsWith(ext));
+    };
+
     return (
         <form action={handleSubmit} className={styles.form}>
             <div className={styles.group}>
@@ -84,12 +89,16 @@ export default function ProjectForm({ initialData }: Props) {
             </div>
 
             <div className={styles.group}>
-                <label>Gallery Images (Select Multiple)</label>
+                <label>Gallery Images/Videos (Select Multiple)</label>
                 {initialData?.images && initialData.images.length > 0 && (
                     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
                         {initialData.images.map((img, i) => (
                             <div key={i} style={{ position: 'relative' }}>
-                                <img src={img} height={80} style={{ borderRadius: '8px', border: '1px solid #ddd' }} alt="" />
+                                {isVideo(img) ? (
+                                    <video src={img} height={80} style={{ borderRadius: '8px', border: '1px solid #ddd' }} />
+                                ) : (
+                                    <img src={img} height={80} style={{ borderRadius: '8px', border: '1px solid #ddd' }} alt="" />
+                                )}
                                 <button
                                     type="button"
                                     onClick={() => handleRemoveImage(img)}
@@ -107,7 +116,7 @@ export default function ProjectForm({ initialData }: Props) {
                 <input
                     name="galleryFiles"
                     type="file"
-                    accept="image/*"
+                    accept="image/*,video/*"
                     multiple
                     className={styles.input}
                 />
