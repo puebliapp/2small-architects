@@ -27,6 +27,8 @@ interface Props {
 }
 
 export default function ProjectCard({ project, isExpanded, isHidden, onClose }: Props) {
+    const [activeImageIndex, setActiveImageIndex] = useState(0);
+    const [isHovered, setIsHovered] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [imagesLoaded, setImagesLoaded] = useState<Set<number>>(new Set([0]));
     const [videoReady, setVideoReady] = useState<Set<number>>(new Set());
