@@ -218,3 +218,16 @@ export async function updateProjectsOrder(projectIds: string[]) {
         return { success: false, error: String(e) };
     }
 }
+
+export async function updateGalleryOrder(projectId: string, imageUrls: string[]) {
+    try {
+        await sql`UPDATE projects SET images = ${imageUrls as any} WHERE id = ${projectId}`;
+
+        revalidatePath(`/admin/project/${projectId}`);
+        revalidatePath('/');
+        return { success: true };
+    } catch (e) {
+        console.error('Gallery order update failed', e);
+        return { success: false, error: String(e) };
+    }
+}
