@@ -32,9 +32,10 @@ export async function getProjects() {
     const { rows } = await sql`
         SELECT id, title, slug, location, type, description, 
                description_2 as "description2", description_3 as "description3",
-               image_url as "imageUrl", dots_icon_url as "dotsIconUrl", images 
+               image_url as "imageUrl", dots_icon_url as "dotsIconUrl", images,
+               sort_order as "sortOrder"
         FROM projects 
-        ORDER BY created_at DESC
+        ORDER BY sort_order ASC, created_at DESC
       `;
     return rows as any[];
   } catch (e) {

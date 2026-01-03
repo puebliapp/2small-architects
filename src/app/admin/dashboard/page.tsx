@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import DeleteProjectButton from '@/components/DeleteProjectButton';
 import { getProjects, getSiteSettings } from '@/lib/db';
 import styles from './dashboard.module.css';
 import SiteSettingsForm from '@/components/SiteSettingsForm';
+import ProjectReorderList from '@/components/ProjectReorderList';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,24 +21,13 @@ export default async function Dashboard() {
 
             <SiteSettingsForm currentLogo={settings?.logoUrl} />
 
-            <div className={styles.list}>
-                {projects.length === 0 ? (
+            {projects.length === 0 ? (
+                <div className={styles.list}>
                     <p className={styles.empty}>No projects found. Create one!</p>
-                ) : (
-                    projects.map((p) => (
-                        <div key={p.id} className={styles.item}>
-                            <div className={styles.info}>
-                                <h3>{p.title}</h3>
-                                <p>{p.slug}</p>
-                            </div>
-                            <div className={styles.actions}>
-                                <Link href={`/admin/project/${p.id}`} className={styles.editBtn}>Edit</Link>
-                                <DeleteProjectButton id={p.id} title={p.title} />
-                            </div>
-                        </div>
-                    ))
-                )}
-            </div>
+                </div>
+            ) : (
+                <ProjectReorderList initialProjects={projects} />
+            )}
         </div>
     );
 }

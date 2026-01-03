@@ -200,3 +200,21 @@ export async function updateSiteLogo(formData: FormData) {
         return { success: false, error: String(e) };
     }
 }
+
+export async function updateProjectsOrder(projectIds: string[]) {
+    try {
+        // Update each project's sort_order based on its index in the array
+        const updates = projectIds.map((id, index) =>
+            sql`UPDATE projects SET sort_order = ${index} WHERE id = ${id}`
+        );
+
+        await Promise.all(updates);
+
+        revalidatePath('/admin/dashboard');
+        revalidatePath('/');
+        return { success: true };
+    } catch (e) {
+        console.error('Order update failed', e);
+        return { success: false, error: String(e) };
+    }
+}

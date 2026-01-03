@@ -16,7 +16,8 @@ export async function GET() {
             ADD COLUMN IF NOT EXISTS dots_icon_url TEXT,
             ADD COLUMN IF NOT EXISTS images TEXT[] DEFAULT '{}',
             ADD COLUMN IF NOT EXISTS description_2 TEXT,
-            ADD COLUMN IF NOT EXISTS description_3 TEXT;
+            ADD COLUMN IF NOT EXISTS description_3 TEXT,
+            ADD COLUMN IF NOT EXISTS sort_order INTEGER DEFAULT 0;
         `;
 
         // Create site_settings table
