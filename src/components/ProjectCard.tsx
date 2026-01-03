@@ -27,10 +27,9 @@ interface Props {
 }
 
 export default function ProjectCard({ project, isExpanded, isHidden, onClose }: Props) {
-    const [activeImageIndex, setActiveImageIndex] = useState(0);
-    const [isHovered, setIsHovered] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [imagesLoaded, setImagesLoaded] = useState<Set<number>>(new Set([0]));
+    const [videoReady, setVideoReady] = useState<Set<number>>(new Set());
 
     const gallery = project.images && project.images.length > 0
         ? project.images
@@ -64,16 +63,26 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
-        // Carousel runs on hover, REGARDLESS of expanded state now.
-        if (isHovered && gallery.length > 1) {
+        const currentIsVideo = isVideo(gallery[activeImageIndex]);
+
+        // If it's a video, we don't start the 2s interval. 
+        // We'll rely on the video's onEnded event to advance.
+        if (isHovered && gallery.length > 1 && !currentIsVideo) {
             interval = setInterval(() => {
                 setActiveImageIndex(prev => (prev + 1) % gallery.length);
             }, 2000);
-        } else {
+        } else if (!isHovered) {
             setActiveImageIndex(0);
         }
+
         return () => clearInterval(interval);
-    }, [isHovered, isExpanded, gallery.length]);
+    }, [isHovered, isExpanded, gallery.length, activeImageIndex, gallery]);
+
+    const handleVideoEnded = () => {
+        if (isHovered && gallery.length > 1) {
+            setActiveImageIndex(prev => (prev + 1) % gallery.length);
+        }
+    };
 
     // Handle clicks on image when Expanded
     const handleImageClick = (e: React.MouseEvent) => {
@@ -98,7 +107,7 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
                 layout
                 className={styles.imageContainer}
                 onClick={handleImageClick}
-                style={{ position: 'relative' }}
+                style={{ position: 'relative', backgroundColor: 'white' }}
             >
                 {isVideo(gallery[activeImageIndex]) ? (
                     <video
@@ -107,15 +116,19 @@ export default function ProjectCard({ project, isExpanded, isHidden, onClose }: 
                         className={styles.image}
                         autoPlay
                         muted
-                        loop
                         playsInline
+                        onCanPlay={() => setVideoReady(prev => new Set([...prev, activeImageIndex]))}
+                        onEnded={handleVideoEnded}
+                        preload="auto"
                         style={{
                             width: '100%',
                             height: '100%',
                             objectFit: 'cover',
                             position: 'absolute',
                             top: 0,
-                            left: 0
+                            left: 0,
+                            opacity: videoReady.has(activeImageIndex) ? 1 : 0,
+                            transition: 'opacity 0.3s ease'
                         }}
                     />
                 ) : (
