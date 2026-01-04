@@ -7,6 +7,7 @@ import { UIProvider } from "@/context/UIContext";
 import AboutDrawer from "@/components/AboutDrawer";
 import CustomCursor from "@/components/CustomCursor";
 import ContactButton from "@/components/ContactButton";
+import { getTeamMembers } from "@/lib/db";
 
 const manrope = Manrope({ subsets: ["latin"] });
 
@@ -15,11 +16,13 @@ export const metadata: Metadata = {
   description: "Portfolio of 2 Small Architects",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const teamMembers = await getTeamMembers();
+
   return (
     <html lang="en">
       <body className={manrope.className}>
@@ -27,7 +30,7 @@ export default function RootLayout({
           <CustomCursor />
           <ContactButton />
           <Header />
-          <AboutDrawer />
+          <AboutDrawer initialMembers={teamMembers} />
           <main style={{ minHeight: '100vh' }}>
             {children}
           </main>

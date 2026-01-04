@@ -240,3 +240,70 @@ export async function updateGalleryOrder(projectId: string, imageUrls: string[])
         return { success: false, error: String(e) };
     }
 }
+
+// Team Members Actions
+export async function createTeamMember(formData: FormData) {
+    const name = formData.get('name') as string;
+    const description_es = formData.get('description_es') as string;
+    const description_en = formData.get('description_en') as string;
+
+    try {
+        await sql`
+            INSERT INTO team_members (name, description_es, description_en)
+            VALUES (${name}, ${description_es}, ${description_en})
+        `;
+        revalidatePath('/admin/dashboard');
+        revalidatePath('/');
+        return { success: true };
+    } catch (e) {
+        console.error('Failed to create team member', e);
+        return { success: false, error: String(e) };
+    }
+}
+
+export async function updateTeamMember(id: string, formData: FormData) {
+    const name = formData.get('name') as string;
+    const description_es = formData.get('description_es') as string;
+    const description_en = formData.get('description_en') as string;
+
+    try {
+        await sql`
+            UPDATE team_members 
+            SET name = ${name}, description_es = ${description_es}, description_en = ${description_en}
+            WHERE id = ${id}
+        `;
+        revalidatePath('/admin/dashboard');
+        revalidatePath('/');
+        return { success: true };
+    } catch (e) {
+        console.error('Failed to update team member', e);
+        return { success: false, error: String(e) };
+    }
+}
+
+export async function deleteTeamMember(id: string) {
+    try {
+        await sql`DELETE FROM team_members WHERE id = ${id}`;
+        revalidatePath('/admin/dashboard');
+        revalidatePath('/');
+        return { success: true };
+    } catch (e) {
+        console.error('Failed to delete team member', e);
+        return { success: false, error: String(e) };
+    }
+}
+
+export async function updateTeamOrder(ids: string[]) {
+    try {
+        const updates = ids.map((id, index) =>
+            sql`UPDATE team_members SET sort_order = ${index} WHERE id = ${id}`
+        );
+        await Promise.all(updates);
+        revalidatePath('/admin/dashboard');
+        revalidatePath('/');
+        return { success: true };
+    } catch (e) {
+        console.error('Failed to update team order', e);
+        return { success: false, error: String(e) };
+    }
+}

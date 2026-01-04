@@ -1,0 +1,164 @@
+.section {
+    margin-top: 3rem;
+    background: #f9f9f9;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.addBtn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item {
+    background: white;
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.dragHandle {
+    color: #ccc;
+    cursor: grab;
+}
+
+.info {
+    flex: 1;
+}
+
+.info strong {
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.preview {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0;
+}
+
+.itemActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.itemActions button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.deleteBtn {
+    color: #dc3545;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modalContent h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+.group {
+    margin-bottom: 1rem;
+}
+
+.group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+}
+
+.group input,
+.group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.actions button {
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.actions button[type="button"] {
+    background: #eee;
+    border: none;
+}
+
+.saveBtn {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+
+.empty {
+    text-align: center;
+    color: #999;
+    padding: 2rem;
+    font-style: italic;
+}

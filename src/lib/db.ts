@@ -64,6 +64,28 @@ export async function getProjectById(id: string) {
   }
 }
 
+export interface TeamMember {
+  id: string;
+  name: string;
+  description_es: string;
+  description_en: string;
+  sort_order: number;
+}
+
+export async function getTeamMembers() {
+  try {
+    const { rows } = await sql`
+        SELECT id, name, description_es, description_en, sort_order
+        FROM team_members 
+        ORDER BY sort_order ASC, created_at ASC
+      `;
+    return rows as TeamMember[];
+  } catch (e) {
+    console.error("DB Error fetching team members:", e);
+    return [];
+  }
+}
+
 export async function getSiteSettings() {
   try {
     const { rows } = await sql`SELECT id, logo_url as "logoUrl" FROM site_settings LIMIT 1`;

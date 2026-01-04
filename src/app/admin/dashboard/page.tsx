@@ -1,14 +1,16 @@
 import Link from 'next/link';
-import { getProjects, getSiteSettings } from '@/lib/db';
+import { getProjects, getSiteSettings, getTeamMembers } from '@/lib/db';
 import styles from './dashboard.module.css';
 import SiteSettingsForm from '@/components/SiteSettingsForm';
 import ProjectReorderList from '@/components/ProjectReorderList';
+import PeopleManager from '@/components/PeopleManager';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Dashboard() {
     const projects = await getProjects();
     const settings = await getSiteSettings();
+    const teamMembers = await getTeamMembers();
 
     return (
         <div className={styles.container}>
@@ -20,6 +22,8 @@ export default async function Dashboard() {
             </header>
 
             <SiteSettingsForm currentLogo={settings?.logoUrl} />
+
+            <PeopleManager initialMembers={teamMembers} />
 
             {projects.length === 0 ? (
                 <div className={styles.list}>
