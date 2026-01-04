@@ -16,8 +16,8 @@
 @media (min-width: 1024px) {
     .container {
         display: grid;
-        /* 3 columns: Logo | Inquiry | Email */
-        grid-template-columns: 1fr 1.5fr 1fr;
+        /* 3 equal columns: Logo | Email | Contact Space */
+        grid-template-columns: repeat(3, 1fr);
         align-items: flex-end;
         gap: 2rem;
     }
@@ -50,42 +50,7 @@
     letter-spacing: 0.1em;
 }
 
-/* 2. Inquiry Block */
-.inquiryBlock {
-    padding-bottom: 0.2rem;
-    color: var(--primary);
-    /* Ensure Blue */
-}
-
-.primaryLang {
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 0.1rem;
-    color: var(--primary);
-    /* Main lang blue */
-}
-
-.secondaryLang {
-    font-size: 1rem;
-    font-weight: 400;
-    color: #999;
-    /* Keep secondary langs grey? Screenshot shows them grey.  */
-    /* Wait, screenshot shows: "Para consultas..." BLUE. 
-       "Pour les..." GREY
-       "For new..." GREY
-       Let's stick to that. Primary Blue, Secondary Grey.
-       Wait user said "Ojo con los colores de estos elementos". 
-       The screenshot `uploaded_image_1...` shows "Para consultas..." as blue-ish, but looking closely at cropped screenshot provided in request text:
-       "Para consultas..." is BLUE.
-       "santosdiez@gmail.com" is BLUE + underline.
-       "Contact" is BLUE.
-       "2 SM ALL ARCHITECTS" is BLUE.
-       So only secondary languages stay grey.
-    */
-    margin-bottom: 0.1rem;
-}
-
-/* 3. Email Block */
+/* 2. Email Block */
 .emailBlock {
     display: flex;
     justify-content: flex-start;
@@ -106,12 +71,14 @@
     font-weight: 500;
 }
 
-/* 4. Contact Block */
-.contactBlock {
-    display: flex;
-    justify-content: flex-end;
-    padding-bottom: 0.2rem;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--primary);
+/* 3. Contact Button Alignment */
+.contactAlignmentFiller {
+    display: none;
+}
+
+@media (min-with: 1024px) {
+    .contactAlignmentFiller {
+        display: block;
+        min-height: 1px;
+    }
 }

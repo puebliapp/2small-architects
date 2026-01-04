@@ -157,9 +157,7 @@
    Let's replace with SVG in the component for better control of the "Cross" shape.
    Actually in the component code I just put spans. Let's start simple. */
 
-.textContent {
-    /* text styles */
-}
+
 
 .description {
     font-size: 0.76rem;
