@@ -1,3 +1,4 @@
+'use client';
 import { useUI } from '@/context/UIContext';
 import styles from './about-drawer.module.css';
 import { TeamMember } from '@/lib/db';

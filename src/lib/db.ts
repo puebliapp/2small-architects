@@ -29,15 +29,20 @@ import { PROJECTS } from './data';
 // Helper to fetch all (replacing static data eventually)
 export async function getProjects() {
   try {
-    const { rows } = await sql`
-        SELECT id, title, slug, location, type, description, 
-               description_2 as "description2", description_3 as "description3",
-               image_url as "imageUrl", dots_icon_url as "dotsIconUrl", images,
-               sort_order as "sortOrder"
-        FROM projects 
-        ORDER BY sort_order ASC, created_at DESC
-      `;
-    return rows as any[];
+    return rows.map(row => ({
+      id: row.id,
+      title: row.title,
+      slug: row.slug,
+      location: row.location,
+      type: row.type,
+      description: row.description,
+      description2: row.description_2,
+      description3: row.description_3,
+      imageUrl: row.image_url,
+      dotsIconUrl: row.dots_icon_url,
+      images: row.images,
+      sortOrder: row.sort_order
+    })) as any[];
   } catch (e) {
     console.error("DB Error:", e);
     if (process.env.NODE_ENV === 'development') {
@@ -79,7 +84,13 @@ export async function getTeamMembers() {
         FROM team_members 
         ORDER BY sort_order ASC, created_at ASC
       `;
-    return rows as TeamMember[];
+    return rows.map(row => ({
+      id: row.id,
+      name: row.name,
+      description_es: row.description_es,
+      description_en: row.description_en,
+      sort_order: row.sort_order
+    })) as TeamMember[];
   } catch (e) {
     console.error("DB Error fetching team members:", e);
     return [];
