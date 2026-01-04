@@ -34,7 +34,7 @@ export default function AboutDrawer({ initialMembers }: Props) {
                                 <div key={member.id} className={styles.member}>
                                     <h3>{member.name}</h3>
                                     {member.description_es && <p style={{ marginBottom: '1rem' }}>{member.description_es}</p>}
-                                    {member.description_en && <p>{member.description_en}</p>}
+                                    {member.description_en && <p className={styles.descriptionEn}>{member.description_en}</p>}
                                 </div>
                             ))
                         ) : (

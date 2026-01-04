@@ -126,6 +126,10 @@
     opacity: 0.9;
 }
 
+.descriptionEn {
+    opacity: 0.5 !important;
+}
+
 .footerContact {
     position: fixed;
     bottom: 2rem;
