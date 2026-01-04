@@ -45,11 +45,6 @@ export default function ProjectForm({ initialData }: Props) {
             </div>
 
             <div className={styles.group}>
-                <label>Slug</label>
-                <input name="slug" required defaultValue={initialData?.slug} placeholder="e.g. casa-agustin" />
-            </div>
-
-            <div className={styles.group}>
                 <label>Location</label>
                 <input name="location" defaultValue={initialData?.location} placeholder="e.g. Asturias" />
             </div>
@@ -60,22 +55,6 @@ export default function ProjectForm({ initialData }: Props) {
             </div>
 
             <div className={styles.group}>
-                <label>Project Image (Main)</label>
-                {initialData?.imageUrl && (
-                    <div style={{ marginBottom: '0.5rem' }}>
-                        <img src={initialData.imageUrl} alt="Current" height={50} />
-                    </div>
-                )}
-                <input
-                    name="imageFile"
-                    type="file"
-                    accept="image/*"
-                    required={!initialData?.imageUrl}
-                    className={styles.input}
-                />
-            </div>
-
-            <div className={styles.group}>
                 {initialData?.id && (
                     <GalleryReorder
                         projectId={initialData.id}
@@ -83,7 +62,7 @@ export default function ProjectForm({ initialData }: Props) {
                     />
                 )}
 
-                <label>Add More to Gallery (Images/Videos)</label>
+                <label>Project Gallery (Images/Videos)</label>
                 <input
                     name="galleryFiles"
                     type="file"

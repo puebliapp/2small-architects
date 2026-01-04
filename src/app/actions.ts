@@ -4,9 +4,19 @@ import { put } from '@vercel/blob';
 import { revalidatePath } from 'next/cache';
 
 
+function slugify(text: string) {
+    return text
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')     // Replace spaces with -
+        .replace(/[^\w-]+/g, '')  // Remove all non-word chars
+        .replace(/--+/g, '-');    // Replace multiple - with single -
+}
+
 export async function createProject(formData: FormData) {
     const title = formData.get('title') as string;
-    const slug = formData.get('slug') as string;
+    const slug = slugify(title); // Automated
     const location = formData.get('location') as string;
     const type = formData.get('type') as string;
     const description = formData.get('description') as string;
@@ -24,23 +34,7 @@ export async function createProject(formData: FormData) {
     let galleryUrls: string[] = [];
 
     try {
-        if (imageFile && imageFile.size > 0) {
-            const blob = await put(imageFile.name, imageFile, {
-                access: 'public',
-                addRandomSuffix: true
-            });
-            imageUrl = blob.url;
-        }
-
-        if (dotsIconFile && dotsIconFile.size > 0) {
-            const blob = await put(dotsIconFile.name, dotsIconFile, {
-                access: 'public',
-                addRandomSuffix: true
-            });
-            dotsIconUrl = blob.url;
-        }
-
-        // Upload Gallery
+        // Upload Gallery first to pick the first one as cover if needed
         for (const file of galleryFiles) {
             if (file && file.size > 0) {
                 const blob = await put(file.name, file, {
@@ -51,11 +45,23 @@ export async function createProject(formData: FormData) {
             }
         }
 
-        // If main image exists, add it to gallery 0 index if desired, or keep separate?
-        // ProjectCard logic: `project.images && project.images.length > 0 ? project.images : [project.imageUrl]`
-        // So `images` takes precedence. If we want carousel, we must save `images`.
-        // Let's prepend main image to gallery if not empty? Or just save gallery.
-        // If user uploads gallery, we save it.
+        if (imageFile && imageFile.size > 0) {
+            const blob = await put(imageFile.name, imageFile, {
+                access: 'public',
+                addRandomSuffix: true
+            });
+            imageUrl = blob.url;
+        } else if (galleryUrls.length > 0) {
+            imageUrl = galleryUrls[0]; // Auto-pick first as cover
+        }
+
+        if (dotsIconFile && dotsIconFile.size > 0) {
+            const blob = await put(dotsIconFile.name, dotsIconFile, {
+                access: 'public',
+                addRandomSuffix: true
+            });
+            dotsIconUrl = blob.url;
+        }
 
         await sql`
             INSERT INTO projects (title, slug, location, type, description, description_2, description_3, image_url, dots_icon_url, images, press_link)
@@ -68,7 +74,7 @@ export async function createProject(formData: FormData) {
     } catch (error: any) {
         console.error('Failed to create project - Full Error:', error);
         if (error.message?.includes('projects_slug_key')) {
-            return { success: false, error: 'El slug ya está en uso por otro proyecto. Por favor, elige uno diferente.' };
+            return { success: false, error: 'El proyecto ya existe (título similar). Por favor, cambia el título.' };
         }
         return { success: false, error: `Upload error: ${error.message || String(error)}` };
     }
@@ -76,7 +82,7 @@ export async function createProject(formData: FormData) {
 
 export async function updateProject(id: string, formData: FormData) {
     const title = formData.get('title') as string;
-    const slug = formData.get('slug') as string;
+    const slug = slugify(title); // Maintain automated slug sync
     const location = formData.get('location') as string;
     const type = formData.get('type') as string;
     const description = formData.get('description') as string;
@@ -120,9 +126,6 @@ export async function updateProject(id: string, formData: FormData) {
         }
 
         if (newGalleryUrls.length > 0) {
-            // Append to existing array. usage: array_cat code is slightly specific.
-            // Standard SQL: images || newArray
-            // Postgres: array_cat(images, ${newGalleryUrls})
             await sql`UPDATE projects SET images = array_cat(images, ${newGalleryUrls as any}) WHERE id = ${id}`;
         }
 
@@ -139,15 +142,15 @@ export async function updateProject(id: string, formData: FormData) {
             WHERE id = ${id}
         `;
 
+        // Safety: ensure image_url is set if it was somehow cleared, by pointing to first image
+        await sql`UPDATE projects SET image_url = (SELECT images[1] FROM projects WHERE id = ${id}) WHERE id = ${id} AND (image_url IS NULL OR image_url = '')`;
+
         revalidatePath('/admin/dashboard');
         revalidatePath(`/admin/project/${id}`);
         revalidatePath('/');
         return { success: true };
     } catch (e: any) {
         console.error('Update failed - Full Error:', e);
-        if (e.message?.includes('projects_slug_key')) {
-            return { success: false, error: 'El slug ya está en uso por otro proyecto. Por favor, elige uno diferente.' };
-        }
         return { success: false, error: `Update upload error: ${e.message || String(e)}` };
     }
 }
