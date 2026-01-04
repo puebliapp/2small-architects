@@ -212,6 +212,17 @@
     }
 }
 
+@media (min-width: 1200px) {
+    .expanded .leftColumn {
+        /* 4 columns scenario - gap is 1.5rem */
+        width: calc((100% - 1.5rem) / 2);
+    }
+
+    .expandedContent {
+        width: calc((100% + 1.5rem) / 2);
+    }
+}
+
 @media (min-width: 1024px) {
     .desktopHidden {
         display: none !important;
@@ -224,7 +235,7 @@
            HOWEVER, filtering in React changes the array referencing.
            Let's try CSS class first, if animation is jerky, we move to conditional rendering. 
            But user wants smooth "disappear".
-        */
+           */
         display: none !important;
     }
 }
