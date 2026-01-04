@@ -42,36 +42,32 @@ export default function ProjectReorderList({ initialProjects }: Props) {
     return (
         <div className={styles.reorderContainer}>
             <div className={styles.reorderHeader}>
-                <h2>Manage Project Order</h2>
-                <p>Drag items to reorder them.</p>
-                {hasChanged && (
-                    <button
-                        onClick={handleSaveOrder}
-                        disabled={isSaving}
-                        className={styles.saveOrderBtn}
-                    >
-                        {isSaving ? 'Saving...' : 'Save New Order'}
-                    </button>
-                )}
-                {message && <span className={styles.successMsg}>{message}</span>}
+                <div className={styles.titleGroup}>
+                    <h2>Manage Projects</h2>
+                    {message && <span className={styles.successMsg}>{message}</span>}
+                </div>
+                <div className={styles.headerActions}>
+                    {hasChanged && (
+                        <button
+                            onClick={handleSaveOrder}
+                            disabled={isSaving}
+                            className={styles.saveOrderBtn}
+                        >
+                            {isSaving ? 'Saving...' : 'Save New Order'}
+                        </button>
+                    )}
+                    <Link href="/admin/project/new" className={styles.addBtn}>
+                        + Add New Project
+                    </Link>
+                </div>
             </div>
 
             <Reorder.Group axis="y" values={projects} onReorder={setProjects} className={styles.list}>
                 {projects.map((p) => (
                     <Reorder.Item key={p.id} value={p} className={styles.item}>
-                        <div className={styles.dragHandle}>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <circle cx="9" cy="5" r="1" fill="currentColor" />
-                                <circle cx="9" cy="12" r="1" fill="currentColor" />
-                                <circle cx="9" cy="19" r="1" fill="currentColor" />
-                                <circle cx="15" cy="5" r="1" fill="currentColor" />
-                                <circle cx="15" cy="12" r="1" fill="currentColor" />
-                                <circle cx="15" cy="19" r="1" fill="currentColor" />
-                            </svg>
-                        </div>
+                        <div className={styles.dragHandle}>☰</div>
                         <div className={styles.info}>
                             <h3 className={styles.projectTitle}>{p.title}</h3>
-                            <p className={styles.projectSlug}>{p.slug}</p>
                         </div>
                         <div className={styles.actions}>
                             <Link href={`/admin/project/${p.id}`} className={styles.editBtn}>Edit</Link>

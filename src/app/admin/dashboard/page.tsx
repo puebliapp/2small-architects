@@ -16,9 +16,6 @@ export default async function Dashboard() {
         <div className={styles.container}>
             <header className={styles.header}>
                 <h1>Dashboard</h1>
-                <Link href="/admin/project/new" className={styles.addButton}>
-                    + New Project
-                </Link>
             </header>
 
             <SiteSettingsForm currentLogo={settings?.logoUrl} />
