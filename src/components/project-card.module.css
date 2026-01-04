@@ -44,7 +44,8 @@
 }
 
 .expanded .leftColumn {
-    width: 50%;
+    /* Precise width for 2-column layout to match single column: calc(50% - 1rem) */
+    width: calc(50% - 1rem);
 }
 
 .imageContainer {
@@ -92,6 +93,7 @@
 
 /* RIGHT COLUMN (Content) */
 .expandedContent {
+    /* Balance for right column in 2-column layout: 100% - (50%-1) - 1(inner gap) = 50% */
     width: 50%;
     padding-top: 0;
     /* Aligned with top of image? */
@@ -214,12 +216,13 @@
 
 @media (min-width: 1200px) {
     .expanded .leftColumn {
-        /* 4 columns scenario - gap is 1.5rem */
-        width: calc((100% - 1.5rem) / 2);
+        /* 4 columns scenario: (50% - 0.75rem) */
+        width: calc(50% - 0.75rem);
     }
 
     .expandedContent {
-        width: calc((100% + 1.5rem) / 2);
+        /* Right = 100% - (50%-0.75) - 1(inner gap) = 50% - 0.25rem */
+        width: calc(50% - 0.25rem);
     }
 }
 
