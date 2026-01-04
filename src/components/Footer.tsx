@@ -26,19 +26,15 @@ export default async function Footer() {
                     )}
                 </div>
 
-                {/* 2. Inquiry Text (Mixed Languages) */}
-                <div className={styles.inquiryBlock}>
-                    <p className={styles.primaryLang}>Para consultas sobre nuevos proyectos</p>
-                    <p className={styles.secondaryLang}>Pour les demandes de nouveaux projets</p>
-                    <p className={styles.secondaryLang}>For new project inquiries</p>
-                </div>
-
-                {/* 3. Email */}
+                {/* 2. Email (Center) */}
                 <div className={styles.emailBlock}>
                     <a href="mailto:santosdiez@gmail.com" className={styles.email}>
                         santosdiez@gmail.com
                     </a>
                 </div>
+
+                {/* 3. Empty slot for Contact Button Alignment (Right) */}
+                <div className={styles.contactAlignmentFiller}></div>
             </div>
         </footer>
     );
