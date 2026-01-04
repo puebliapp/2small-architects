@@ -170,7 +170,9 @@ export async function deleteProject(id: string) {
 export async function removeImageFromProject(id: string, imageUrl: string) {
     try {
         await sql`UPDATE projects SET images = array_remove(images, ${imageUrl}) WHERE id = ${id}`;
-        // Revalidate project edit page to see reflected change
+        // Sync cover image if it was the removed one
+        await sql`UPDATE projects SET image_url = (SELECT images[1] FROM projects WHERE id = ${id}) WHERE id = ${id} AND image_url = ${imageUrl}`;
+
         revalidatePath(`/admin/project/${id}`);
         revalidatePath('/');
         return { success: true };
@@ -225,6 +227,10 @@ export async function updateProjectsOrder(projectIds: string[]) {
 export async function updateGalleryOrder(projectId: string, imageUrls: string[]) {
     try {
         await sql`UPDATE projects SET images = ${imageUrls as any} WHERE id = ${projectId}`;
+        // Automatically sync project_image to the first one in the new order
+        if (imageUrls.length > 0) {
+            await sql`UPDATE projects SET image_url = ${imageUrls[0]} WHERE id = ${projectId}`;
+        }
 
         revalidatePath(`/admin/project/${projectId}`);
         revalidatePath('/');
