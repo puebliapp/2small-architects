@@ -26,7 +26,10 @@ export async function createTable() {
 
 import { PROJECTS } from './data';
 
-const { rows } = await sql`
+// Helper to fetch all (replacing static data eventually)
+export async function getProjects() {
+  try {
+    const { rows } = await sql`
         SELECT id, title, slug, location, type, description, 
                description_2 as "description_2", description_3 as "description_3",
                image_url as "image_url", dots_icon_url as "dots_icon_url", images,
@@ -34,27 +37,27 @@ const { rows } = await sql`
         FROM projects 
         ORDER BY sort_order ASC, created_at DESC
       `;
-return (rows || []).map(row => ({
-  id: row.id,
-  title: row.title,
-  slug: row.slug,
-  location: row.location,
-  type: row.type,
-  description: row.description,
-  description2: row.description_2,
-  description3: row.description_3,
-  imageUrl: row.image_url,
-  dotsIconUrl: row.dots_icon_url,
-  images: row.images,
-  sortOrder: row.sort_order
-})) as any[];
+    return (rows || []).map(row => ({
+      id: row.id,
+      title: row.title,
+      slug: row.slug,
+      location: row.location,
+      type: row.type,
+      description: row.description,
+      description2: row.description_2,
+      description3: row.description_3,
+      imageUrl: row.image_url,
+      dotsIconUrl: row.dots_icon_url,
+      images: row.images,
+      sortOrder: row.sort_order
+    })) as any[];
   } catch (e) {
-  console.error("DB Error:", e);
-  if (process.env.NODE_ENV === 'development') {
-    return PROJECTS;
+    console.error("DB Error:", e);
+    if (process.env.NODE_ENV === 'development') {
+      return PROJECTS;
+    }
+    return [];
   }
-  return [];
-}
 }
 
 // Fetch single project by ID (for admin edit)
